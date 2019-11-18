@@ -15,6 +15,7 @@ jupyter = "*"
 pandas = "*"
 seaborn = "*"
 nb-black = "*"
+scikit-plot = "*"
 
 [requires]
 python_version = "3.7"
