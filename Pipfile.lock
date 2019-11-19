@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9339b91ab6a33a07140381d649199d3263457dcb7c4b0a4dd59027e19d7d6328"
+            "sha256": "c69be02c82cc29b980757d995b248d612d7ea7b508f1873a3810cf3e84c78315"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -253,6 +253,7 @@
                 "sha256:aa18d7378b00b40847790e7c27e11673d7fed219354109d0e7b9e5b25dc3ad26",
                 "sha256:d5f18a79777f3aa179c145737780282e27b508fc8fd688cb17c7a813e8bd39af"
             ],
+            "markers": "python_version < '3.8'",
             "version": "==0.23"
         },
         "ipykernel": {
@@ -307,10 +308,10 @@
         },
         "jsonschema": {
             "hashes": [
-                "sha256:2fa0684276b6333ff3c0b1b27081f4b2305f0a36cf702a23db50edb141893c3f",
-                "sha256:94c0a13b4a0616458b42529091624e66700a17f847453e52279e35509a5b7631"
+                "sha256:4e5b3cf8216f577bee9ce139cbe72eca3ea4f292ec60928ff24758ce626cd163",
+                "sha256:c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a"
             ],
-            "version": "==3.1.1"
+            "version": "==3.2.0"
         },
         "jupyter": {
             "hashes": [
@@ -865,6 +866,20 @@
             ],
             "index": "pypi",
             "version": "==2.0.0"
+        },
+        "tensorflow-addons": {
+            "hashes": [
+                "sha256:065ae16650e33e71f638ca2eb88f8020d80c32dddbf5e0d33a31a11e81609744",
+                "sha256:4101475d6d87e70ac83ee90e908d8d2f08ff28842eeffa7c0bbe411d2ffea738",
+                "sha256:48478c030cb2d4a3568fcbf4e620c2060a98c617a64fef43f255b0663deaa517",
+                "sha256:750f795126fdeca501fc1865a662186f33c9b61fe1d289f7b798e9bc15cbae78",
+                "sha256:94972f70393faa1d390da3e8e1f386e2ce7186f9a9bdfb743dedb53b2aa38f39",
+                "sha256:9c8833134bf2e422c41be2f50808b38eb2d6a6d7244ca75267be8f1929f5b7e8",
+                "sha256:f23bbccb7c13fddb892d07fad352746e931f7223ff2bf44e71975af8912d62e5",
+                "sha256:f7f89a1eb0b989e28c7f6e5e52360495d4826ca43ff1dde5dd00ff3fc444d63a"
+            ],
+            "index": "pypi",
+            "version": "==0.6.0"
         },
         "tensorflow-estimator": {
             "hashes": [
