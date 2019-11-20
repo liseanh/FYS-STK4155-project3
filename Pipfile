@@ -17,6 +17,7 @@ seaborn = "*"
 nb-black = "*"
 scikit-plot = "*"
 tensorflow-addons = "*"
+scikit-optimize = "*"
 
 [requires]
 python_version = "3.7"
