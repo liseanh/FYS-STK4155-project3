@@ -36,20 +36,55 @@
   \begin{@twocolumnfalse}
     \maketitle
     \begin{abstract}
-
+		Whole page: \printinunitsof{in}\prntlen{\textwidth} 
+		Column: \printinunitsof{in}\prntlen{\columnwidth}
 	\end{abstract}
   \end{@twocolumnfalse}
 ]
+
+
 
 \section{Introduction}
 
 
 
 \section{Data}
+\begin{figure}
+\includegraphics[scale=1]{{figures/histogram}.pdf}
+\caption{Frequencies of the binary outcomes in the data set.}
+\label{fig:Histogram}
+\end{figure}
 
-Whole page: \printinunitsof{in}\prntlen{\textwidth} 
-Column: \printinunitsof{in}\prntlen{\columnwidth}
+\begin{figure*}
+\includegraphics[scale=1]{{figures/correlation_matrix_train}.pdf}
+\caption{Correlation matrix of the features in the train set. Upper triangle excluded for readability.}
+\label{fig:Correlation}
+\end{figure*}
+\section{Method}
 
+\section{Results}
+
+\begin{figure*}
+\includegraphics[scale=1]{{figures/kNN_cv_results}.pdf}
+\caption{Results from tuned kNN using cross validation. The confusion matrix was found using the test set.}
+\label{fig:kNN}
+\end{figure*}
+
+\begin{figure}
+\includegraphics[scale=1]{{figures/nn_confusion_matrix}.pdf}
+\caption{Confusion matrix of the neural network model applied to the test set.}
+\label{fig:NN_confusion}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=1]{{figures/xgboost_confusion_matrix}.pdf}
+\caption{Confusion matrix of the gradient boosted model applied to the test set.}
+\label{fig:XGB_confusion}
+\end{figure}
+
+\section{Discussion}
+
+\section{Conclusion}
 
 %\bibliographystyle{iEEEtran}
 \bibliography{references}
