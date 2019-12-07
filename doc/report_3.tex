@@ -120,6 +120,20 @@ confusion matrix and f1 score
 
 \section{Results}
 
+\begin{table}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|llll|}
+\hline
+           & kNN & MLP & XGB \\
+\hline
+Train F$_1$ & $0.88$ & $0.87$ & $0.95$\\
+Test F$_1$   & $0.83$ & $0.87$ & $0.88$\\
+\hline
+\end{tabular}
+}
+\caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer Perceptron and XGBoost.}
+\label{tab:F1}
+\end{table}
 
 \begin{figure*}
 \includegraphics[scale=1]{{figures/kNN_cv_results}.pdf}
@@ -143,6 +157,11 @@ found using the test set.}
 \section{Discussion}
  
 \section{Conclusion}
+
+
+\section*{Acknowledgements}
+We want to thank the University of California, Irving for providing us with the data used in this project.
+
 
 %\bibliographystyle{iEEEtran}
 \bibliography{bibliography}
