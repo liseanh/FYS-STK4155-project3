@@ -44,11 +44,12 @@
 
 
 \section{Introduction}
-In popular culture the neural network is probably the most well known form of machine learning.
- In recent years many other statistical learning methods have proven themselves
- as well however.
- In this project we compare the performance of neural networks and gradient boosting in the case of binary classification.
- In addition to these, we also use the much simpler k-nearest neighbours method as a baseline for classification performance.
+In popular culture the neural network is probably the most well known form of 
+machine learning. In recent years many other statistical learning methods have 
+proven themselves as well however. In this project we compare the performance of 
+neural networks and gradient boosting in the case of binary classification.
+In addition to these, we also use the much simpler k-nearest neighbours method 
+as a baseline for classification performance.
 
 
 
@@ -107,15 +108,53 @@ excluded for readability.}
 
 
 \subsection{$\pmb{k}$-Nearest Neighbour (kNN)}
+The $k$-nearest neighbour method is a non-parametric method that consists of 
+using the $k$ observations in the training set in feature space closest to a point 
+$x$ to form a model $\hat{y}$. For regression and binary classification, the 
+method considers a point $x$ and the $k$ closest points $x_i$ in the 
+neighbourhood $N_k(x)$ defined by $k$, such that 
+\begin{equation} \label{eq:kNN}
+\hat{y} = \frac{1}{k}\sum_{x_i\in N_k(x)} y_i,
+\end{equation}
+i.e. the model output is the average of the $k$ closest points to $x$.
 
+As we are using this method for binary classification, we assign the classes such 
+that 
+\begin{equation}
+\hat{Y}=
+\begin{cases}
+      \text{g if }  \hat{y}\leq 0.5\\
+      \text{h if } \hat{y} > 0.5
+\end{cases} \cite{hastie}. 
+\end{equation} 
+Alternatively, the observation can be assigned according to the majority class of 
+its neighbours, such that the observation is classified as the most common class 
+in its neighbourhood. This is the method used for multiclass classification.
+
+\subsubsection{Hyperparameter tuning}
+The kNN method is a simple approach that only requires tuning of a single 
+hyperparameter $k$. Using $k=1$ results in a highly complex model with high 
+variance, while using $k=N$ where $N$ is the total number of samples in the 
+training set results in a simple, highly biased model. To find the optimal value 
+for $k$ in our case, we use 5-fold cross-validation on the training set, keeping 
+1/3rd of the data as test set. 
 
 \subsection{Multilayer Perceptron (MLP)}
+A multilayer perceptron (MLP) is a feed-forward neural network. It contains an 
+input layer, one or more hidden layers, with tunable number of nodes and layers, 
+and a final output layer. In a feed-forward neural network. the information 
+flows only in one direction from the input layer to the output layer. 
+
+\subsubsection{Hyperparameter tuning}
 
 
 \subsection{Gradient Boosting}
+\subsubsection{Hyperparameter tuning}
 
 
 \subsection{Model evaluation}
+To evaluate the models 
+
 confusion matrix and f1 score
 
 \section{Results}
