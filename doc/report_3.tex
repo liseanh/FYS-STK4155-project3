@@ -121,7 +121,8 @@ confusion matrix and f1 score
 \section{Results}
 
 \begin{table}
-\resizebox{\columnwidth}{!}{
+%\resizebox{\columnwidth}{!}{
+\centering
 \begin{tabular}{|llll|}
 \hline
            & kNN & MLP & XGB \\
@@ -130,7 +131,7 @@ Train F$_1$ & $0.88$ & $0.87$ & $0.95$\\
 Test F$_1$   & $0.83$ & $0.87$ & $0.88$\\
 \hline
 \end{tabular}
-}
+%}
 \caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer Perceptron and XGBoost.}
 \label{tab:F1}
 \end{table}
