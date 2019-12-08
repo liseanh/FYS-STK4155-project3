@@ -121,6 +121,36 @@ confusion matrix and f1 score
 \section{Results}
 
 \begin{table}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|llllll|}
+\hline
+Batch & Drop$_1$ & Drop$_2$ & Nodes$_1$ & Nodes$_2$ & Epochs\\
+\hline
+$109$ & $0.13$ & $0.095$ & $17$ & $4$ & $55$ \\
+\hline
+\end{tabular}
+}
+\caption{Estimated hyperparameters for the neural network model employed in this project.}
+\label{tab:Tune_NN}
+\end{table}
+
+\begin{table}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|llllll|}
+\hline
+$\eta$ & Depth & $\alpha$ & $\lambda$ & Weight$_\text{min}$ & Epochs \\
+\hline
+0.048 & 9 & 0.0074 & 0.0035 & 3 & 125 \\
+\hline
+\end{tabular}
+}
+\caption{Estimated hyperparameters for the XGB model employed in this project.}
+\label{tab:Tune_XGB}
+\end{table}
+
+\begin{table}
 %\resizebox{\columnwidth}{!}{
 \centering
 \begin{tabular}{|llll|}
