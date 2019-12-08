@@ -151,26 +151,33 @@ input layer, one or more hidden layers, with tunable number of nodes and layers,
 and a final output layer. The information flows only in one direction from the 
 input layer to the output layer. The input and output values of the nodes are 
 determined by an activation function, in addition to the weights and biases of 
-the nodes. For a more extensive explanation of how the MLP works, please refer 
-to our previous work, \textit{Project 2: Regression and Classification} 
-\cite{project2}.
+the nodes. For a more extensive explanation of how the different components of 
+the MLP works, please refer to our previous work, \textit{Project 2: Regression 
+and Classification} \cite{project2}.
+
+We have chosen to use the Rectified Linear Unit (ReLU) function as our 
+activitation function $f(z)$ between the layers, which is given by 
+\begin{equation}
+      f(z) = \max (0,\ z),
+\end{equation}
+and its gradient by 
+\begin{equation}
+      f'(z) = 
+      \begin{cases} 
+            0, &  z<0\\
+            1, &  z>0
+      \end{cases}. 
+\end{equation}
+For the activation function of the final output layer, we use the softmax 
+function to achieve the categorical outcomes,
+\begin{equation}
+      f(z_i)=\frac{e^z_i}{\sum e^{z_j}}
+\end{equation}
 
 For this project we will be using the \href{https://www.tensorflow.org/}
-{TensorFlow} library to implement the MLP. We have chosen to use the Rectified 
-Linear Unit (ReLU) as our activitation function between the layers, which is 
-given by 
-\begin{equation}
-f(x) = \max (0,\ x)
-\end{equation}
-with gradient 
-
-\begin{equation}
-f'(x) = 
-\begin{cases} 
-      0, &  x<0\\
-      1, &  x>0
-\end{cases}. 
-\end{equation}
+{TensorFlow} library to implement the MLP with the addition of the 
+\href{https://scikit-optimize.github.io/}{Scikit-Optimize} library to optimise 
+the hyperparameters.
 
 \subsubsection{Hyperparameter tuning}
 Neural network models normally have high variance and low bias
