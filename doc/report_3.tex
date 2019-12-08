@@ -127,25 +127,53 @@ that
       \text{h if } \hat{y} > 0.5
 \end{cases} \cite{hastie}. 
 \end{equation} 
+
 Alternatively, the observation can be assigned according to the majority class of 
 its neighbours, such that the observation is classified as the most common class 
 in its neighbourhood. This is the method used for multiclass classification.
 
+To implement kNN and the hyperparameter optimisation in this project we use the 
+\href{https://scikit-learn.org/stable}{Scikit-Learn} 
+library. 
+
 \subsubsection{Hyperparameter tuning}
 The kNN method is a simple approach that only requires tuning of a single 
 hyperparameter $k$. Using $k=1$ results in a highly complex model with high 
-variance, while using $k=N$ where $N$ is the total number of samples in the 
-training set results in a simple, highly biased model. To find the optimal value 
+variance, while using $k=N$, where $N$ is the total number of samples in the 
+training set, results in a simple, highly biased model. To find the optimal value 
 for $k$ in our case, we use 5-fold cross-validation on the training set, keeping 
-1/3rd of the data as test set. 
+1/3rd of the total data as test set. 
+
 
 \subsection{Multilayer Perceptron (MLP)}
 A multilayer perceptron (MLP) is a feed-forward neural network. It contains an 
 input layer, one or more hidden layers, with tunable number of nodes and layers, 
-and a final output layer. In a feed-forward neural network. the information 
-flows only in one direction from the input layer to the output layer. 
+and a final output layer. The information flows only in one direction from the 
+input layer to the output layer. The input and output values of the nodes are 
+determined by an activation function, in addition to the weights and biases of 
+the nodes. For a more extensive explanation of how the MLP works, please refer 
+to our previous work, \textit{Project 2: Regression and Classification} 
+\cite{project2}.
+
+For this project we will be using the \href{https://www.tensorflow.org/}
+{TensorFlow} library to implement the MLP. We have chosen to use the Rectified 
+Linear Unit (ReLU) as our activitation function between the layers, which is 
+given by 
+\begin{equation}
+f(x) = \max (0,\ x)
+\end{equation}
+with gradient 
+
+\begin{equation}
+f'(x) = 
+\begin{cases} 
+      0, &  x<0\\
+      1, &  x>0
+\end{cases}. 
+\end{equation}
 
 \subsubsection{Hyperparameter tuning}
+Neural network models normally have high variance and low bias
 
 
 \subsection{Gradient Boosting}
