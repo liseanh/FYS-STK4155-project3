@@ -180,8 +180,26 @@ For this project we will be using the \href{https://www.tensorflow.org/}
 the hyperparameters.
 
 \subsubsection{Hyperparameter tuning}
-Neural network models normally have high variance and low bias
+In this project we choose to limit ourselves to two hidden layers for computational reasons, and tune 
+the amount of nodes in both of those layers. 
 
+To counteract the high variance of the model, we introduce
+regularisation using dropout. Dropout is tuned for each
+layer, and is the chance of any node in the given layer
+to be ignored at an iteration in training. This reduces
+variance by forcing the other nodes to be able to work
+more independently from each other, lessening the chance
+for overfitting.
+
+We also tune the batch size. This leaves us with five 
+hyperparameters to tune. Ideally we would employ cross 
+validation on the train to tune these parameters, but
+for computational reasons we have decided to instead
+set aside 10\% of the training set for validation.
+After finding the tuning parameters that maximise 
+F$_1$ on the validation set, we use these parameters to 
+fit the model on the entire training data including the 
+validation data. This is known as a refit. 
 
 \subsection{Gradient Boosting}
 \subsubsection{Hyperparameter tuning}
