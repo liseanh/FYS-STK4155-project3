@@ -180,8 +180,26 @@ For this project we will be using the \href{https://www.tensorflow.org/}
 the hyperparameters.
 
 \subsubsection{Hyperparameter tuning}
-Neural network models normally have high variance and low bias
+In this project we choose to limit ourselves to two hidden layers for computational reasons, and tune 
+the amount of nodes in both of those layers. 
 
+To counteract the high variance of the model, we introduce
+regularisation using dropout. Dropout is tuned for each
+layer, and is the chance of any node in the given layer
+to be ignored at an iteration in training. This reduces
+variance by forcing the other nodes to be able to work
+more independently from each other, lessening the chance
+for overfitting.
+
+We also tune the batch size. This leaves us with five 
+hyperparameters to tune. Ideally we would employ cross 
+validation on the train to tune these parameters, but
+for computational reasons we have decided to instead
+set aside 10\% of the training set for validation.
+After finding the tuning parameters that maximise 
+F$_1$ on the validation set, we use these parameters to 
+fit the model on the entire training data including the 
+validation data. This is known as a refit. 
 
 \subsection{Extreme Gradient Boosting (XGB)}
 Boosting is a learning technique based on the idea of combining several weak 
@@ -237,8 +255,20 @@ confusion matrix and f1 score
 
 \section{Results}
 
-\begin{table}[H]
+Table \ref{tab:F1} shows the train and test F$_1$ scores for the three models 
+employed in this project. XGBoost seems to outperform the neural network by a 
+small margin for this split of the data. Both the neural network and XGBoost 
+clearly outperform kNN.
+  
+For kNN, the tuning parameter $k$ was found to be bestat $k=5$. The 
+hyperparameters decided on in MLP and XGBoost are stated in Table 
+\ref{tab:Tune_NN} and\ref{tab:Tune_XGB}.
+
+\begin{table}
 \centering
+\caption{Estimated hyperparameters for the neural network model employed in this 
+project.}
+\label{tab:Tune_NN} 
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|llllll|}
 \hline
@@ -248,12 +278,13 @@ $109$ & $0.13$ & $0.095$ & $17$ & $4$ & $55$ \\
 \hline
 \end{tabular}
 }
-\caption{Estimated hyperparameters for the neural network model employed in this project.}
-\label{tab:Tune_NN}
+
 \end{table}
 
 \begin{table}[H]
 \centering
+\caption{Estimated hyperparameters for the XGB model employed in this project.}
+\label{tab:Tune_XGB}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|llllll|}
 \hline
@@ -263,11 +294,13 @@ $\eta$ & Depth & $\alpha$ & $\lambda$ & Weight$_\text{min}$ & Epochs \\
 \hline
 \end{tabular}
 }
-\caption{Estimated hyperparameters for the XGB model employed in this project.}
-\label{tab:Tune_XGB}
+
 \end{table}
 
 \begin{table}
+\caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer 
+Perceptron and XGBoost.}
+\label{tab:F1}
 %\resizebox{\columnwidth}{!}{
 \centering
 \begin{tabular}{|llll|}
@@ -279,8 +312,6 @@ Test F$_1$   & $0.83$ & $0.87$ & $0.88$\\
 \hline
 \end{tabular}
 %}
-\caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer Perceptron and XGBoost.}
-\label{tab:F1}
 \end{table}
 
 \begin{figure*}
