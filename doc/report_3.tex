@@ -208,7 +208,7 @@ $f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$,
 \end{equation}
 
 Gradient boosting is one such method. We consider a loss function $L(y, f(x))$,
-which is iteratively minimised by calculating the negative gradient of the loss
+which is minimised by calculating the negative gradient of the loss
 function to obtain the minimisation direction. To prevent overfitting, the
 boosting step size, also referred to as learning rate, $\nu \in (0,1)$ is 
 introduced as a tuning parameter, with smaller values of $\nu$ resulting in 
@@ -245,12 +245,40 @@ gradient boosting called extreme gradient boosting (XGB).
 
 
 \subsubsection{Hyperparameter tuning}
+The XGBoost package has many hyperparameters added on top of the ordinary 
+gradient boosting algorithm. 
 
+As with the neural network model, we also do not use cross validation here. We 
+use the same train-validation split as for the neural network. We also employ
+a randomised search instead of a grid search.
 
 \subsection{Model evaluation}
-To evaluate the models
+For classification problems, one can visualise the performance of a model using the so called confusion matrix. In our case it is defined as.
+\begin{align}
+\bm{A}&=\begin{pmatrix}
+\sum (\hat{y}=g, y=g) & \sum(\hat{y}=h, y=g) \\
+\sum(\hat{y}=g, y=h) & \sum(\hat{y}=h, y=h)
+\end{pmatrix}\nonumber \\
+&=\begin{pmatrix}
+g_g & g_h \\
+h_g & h_h
+\end{pmatrix}.
+\label{eq:Confusion}
+\end{align}
+A perfect model would then only have elements on the diagonal.
 
-confusion matrix and f1 score
+A common way to evaluate classification models is the F$_1$-score. This is a 
+metric quantifying the amount of diagonal and off-diagonal elements of the 
+confusion matrix and is defined as 
+\begin{equation}
+\text{F}_1=\frac{2 g_g}{2g_g + g_h + h_g}
+\label{eq:F1}
+\end{equation} 
+The F$_1$ score can vary between 0 and 1, 1 representing a perfect fit with 
+no off-diagonal elements. To us the best performing model is the model which 
+maximises $F_1$ and minimises $g_h$ on the test set, as false negatives are 
+worse than false positives in this case because they lead to loss of important 
+data.
 
 \section{Results}
 
