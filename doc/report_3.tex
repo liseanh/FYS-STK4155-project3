@@ -212,6 +212,17 @@ confusion matrix and f1 score
 
 \section{Results}
 
+Table \ref{tab:F1} shows the train and test F$_1$ 
+scores for the three models employed in this project. 
+XGBoost seems to outperform the neural network by a
+ small margin for this split of the data. Both the
+  neural network and XGBoost clearly outperform kNN.
+  
+  For kNN, the tuning parameter $k$ was found to be best
+  at $k=5$. The hyperparameters decided on in MLP and
+  XGBoost are stated in Table \ref{tab:Tune_NN} and
+   \ref{tab:Tune_XGB}.
+
 \begin{table}
 \centering
 \resizebox{\columnwidth}{!}{
