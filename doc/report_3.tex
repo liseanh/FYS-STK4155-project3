@@ -180,31 +180,26 @@ For this project we will be using the \href{https://www.tensorflow.org/}
 the hyperparameters.
 
 \subsubsection{Hyperparameter tuning}
-In this project we choose to limit ourselves to two hidden layers for computational reasons, and tune
-the amount of nodes in both of those layers.
+In this project we choose to limit ourselves to two hidden layers for 
+computational reasons, and tune the amount of nodes in both of those layers.
 
-To counteract the high variance of the model, we introduce
-regularisation using dropout. Dropout is tuned for each
-layer, and is the chance of any node in the given layer
-to be ignored at an iteration in training. This reduces
-variance by forcing the other nodes to be able to work
-more independently from each other, lessening the chance
-for overfitting.
+To counteract the high variance of the model, we introduce regularisation using 
+dropout. Dropout is tuned for eachlayer, and is the chance of any node in the 
+given layer to be ignored at an iteration in training. This reduces variance by 
+forcing the other nodes to be able to work more independently from each other, 
+lessening the chance for overfitting.
 
-We also tune the batch size. This leaves us with five
-hyperparameters to tune. A grid search would be too
-expensive to perform, so instead we perform a random
-search. Ideally we would employ cross
-validation on the train set evaluate the candidate
-hyperparameters, but
-for computational reasons we have decided to instead
-set aside 10\% of the training set for validation.
-After finding the tuning parameters that maximise
-F$_1$ on the validation set, we use these parameters to
-fit the model on the entire training data including the
-validation data. This is known as a refit.
+We also tune the batch size. This leaves us with five hyperparameters to tune. A 
+grid search would be too expensive to perform, so instead we perform a random
+search. Ideally we would employ cross validation on the train set evaluate the 
+candidate hyperparameters, but for computational reasons we have decided to 
+instead set aside 10\% of the training set for validation. After finding the 
+tuning parameters that maximise F$_1$ on the validation set, we use these 
+parameters to fit the model on the entire training data including the validation 
+data. This is known as a refit. 
 
-\subsection{Extreme Gradient Boosting (XGB)}
+
+\subsection{Gradient Boosting and Extreme Gradient Boosting (XGB)}
 Boosting is a learning technique based on the idea of combining several weak
 learners $b_m$ into a final strong learner $f_{m_\text{stop}}$, where each
 $f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$,
@@ -215,8 +210,9 @@ $f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$,
 Gradient boosting is one such method. We consider a loss function $L(y, f(x))$,
 which is iteratively minimised by calculating the negative gradient of the loss
 function to obtain the minimisation direction. To prevent overfitting, the
-boosting step size $\nu \in (0,1)$ is introduced as a tuning parameter, with
-smaller values of $\nu$ resulting in larger shrinkage,
+boosting step size, also referred to as learning rate, $\nu \in (0,1)$ is 
+introduced as a tuning parameter, with smaller values of $\nu$ resulting in 
+larger shrinkage, 
 \begin{equation}
 f_m(x)=f_{m-1}(x) + \nu h_m .
 \end{equation}
@@ -277,54 +273,57 @@ at $k=5$. This is also evident in Figure
 XGBoost are stated in Table \ref{tab:Tune_NN} and
 \ref{tab:Tune_XGB}.
 
-\begin{table}
-\centering
-\caption{Estimated hyperparameters for the neural network model employed in this
-project.}
-\label{tab:Tune_NN}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|llllll|}
-\hline
-Batch & Drop$_1$ & Drop$_2$ & Nodes$_1$ & Nodes$_2$ & Epochs\\
-\hline
-$109$ & $0.13$ & $0.095$ & $17$ & $4$ & $55$ \\
-\hline
-\end{tabular}
-}
-
-\end{table}
 
 \begin{table}[H]
-\centering
-\caption{Estimated hyperparameters for the XGB model employed in this project.}
-\label{tab:Tune_XGB}
+\caption{Estimated optimal hyperparameters found using randomised search for the 
+multilayer perceptron model.}
+\label{tab:Tune_NN}
 \resizebox{\columnwidth}{!}{
-\begin{tabular}{|llllll|}
-\hline
-$\eta$ & Depth & $\alpha$ & $\lambda$ & Weight$_\text{min}$ & Epochs \\
-\hline
-0.048 & 9 & 0.0074 & 0.0035 & 3 & 125 \\
-\hline
-\end{tabular}
+  \begin{tabular}{|l|l|} \hline 
+      \textbf{Hyperparameter} & \textbf{Optimal value} \hspace{2pt} \\ \hline
+      Batch size              & 109              \\ \hline
+      Epochs                  & 55               \\ \hline
+      Dropout, first layer    & 0.13             \\ \hline 
+      Dropout, second layer   & 0.095            \\ \hline 
+      Nodes, first layer      & 17               \\ \hline 
+      Nodes, second layer     & 4                \\ \hline 
+  \end{tabular}
 }
-
 \end{table}
 
-\begin{table}
-\caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer
-Perceptron and XGBoost.}
+
+\begin{table}[H]
+\caption{Estimated optimal hyperparameters found using randomised search for the 
+extreme gradient boosted tree model.}
+\label{tab:Tune_XGB}
+\resizebox{\columnwidth}{!}{
+  \begin{tabular}{|l|l|} \hline
+      \textbf{Hyperparameter} & \textbf{Optimal value} \hspace{2pt} \\ \hline
+      Learning rate           & 0.048     \\ \hline 
+      Epochs                  & 125       \\ \hline 
+      Maximum  tree depth     & 9         \\ \hline 
+      L1 shrinkage parameter  & 0.0074    \\ \hline 
+      L2 shrinkage parameter  & 0.0035    \\ \hline 
+      Minimum child weight    & 3         \\ \hline 
+  \end{tabular}
+}
+\end{table}
+      
+      
+
+\begin{table}[H]
+\caption{F$_1$ score for the training and test set for our k-nearest neighbour 
+(kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models .}
 \label{tab:F1}
-%\resizebox{\columnwidth}{!}{
-\centering
-\begin{tabular}{|llll|}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|l|l|l|l|}
 \hline
-           & kNN & MLP & XGB \\
-\hline
-Train F$_1$ & $0.88$ & $0.87$ & $0.95$\\
-Test F$_1$   & $0.83$ & $0.87$ & $0.88$\\
-\hline
+\textbf{F$_1$ score}  & \textbf{kNN} \hspace{10pt} 
+& \textbf{MLP} \hspace{10pt} & \textbf{XGB}  \hspace{10pt}\\ \hline
+Training set & $0.88$ & $0.87$ & $0.95$ \\ \hline
+Test set     & $0.83$ & $0.87$ & $0.88$ \\ \hline
 \end{tabular}
-%}
+}
 \end{table}
 
 \begin{figure*}
