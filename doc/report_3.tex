@@ -183,7 +183,50 @@ the hyperparameters.
 Neural network models normally have high variance and low bias
 
 
-\subsection{Gradient Boosting}
+\subsection{Extreme Gradient Boosting (XGB)}
+Boosting is a learning technique based on the idea of combining several weak 
+learners $b_m$ into a final strong learner $f_{m_\text{stop}}$, where each 
+$f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$, 
+\begin{equation}
+      f_{m_\text{stop}} = \sum_{m=0}^{m_\text{stop}} h_m.
+\end{equation}
+
+Gradient boosting is one such method. We consider a loss function $L(y, f(x))$, 
+which is iteratively minimised by calculating the negative gradient of the loss 
+function to obtain the minimisation direction. To prevent overfitting, the 
+boosting step size $\nu \in (0,1)$ is introduced as a tuning parameter, with 
+smaller values of $\nu$ resulting in larger shrinkage, 
+\begin{equation}
+f_m(x)=f_{m-1}(x) + \nu h_m .  
+\end{equation}
+The gradient boosting algorithm goes as follows: \cite{RiccardoGB}
+\begin{enumerate}[leftmargin=5mm, itemsep=0pt,  parsep=1pt]
+\item Initialize the estimate $f_0(x)$
+\item for $m= 1,\ ,\dots,\ m_\text{stop}$:
+      \begin{enumerate}[leftmargin=5mm, itemsep=0pt,  parsep=1pt]
+            \item Compute negative gradient vector 
+            \begin{equation*}
+                  u_m = -\frac{\partial L(y,\ f(x))}{\partial f(x)} \bigg\vert
+                  _{f(x)=\hat{f}_{m-1}(x)}
+            \end{equation*}
+            \item Fit the base learner to the negative gradient vector, 
+            $b_m(u_m, x)$
+            \item Update the estimate 
+            \begin{equation*}
+                  f_m(x) = f_{m-1}(x) + \nu b_m (u_m, x)
+            \end{equation*}
+      \end{enumerate}
+\item Compute final estimate, 
+      \begin{equation*}
+            \hat{f}_{m_\text{stop}} (x) = 
+            \sum _{m=0}^{m_\text{stop}-1}\nu b_m(u_m, x)
+      \end{equation*}
+\end{enumerate}
+
+For this project, we have chosen to boost decision trees using a variant of 
+gradient boosting called extreme gradient boosting (XGB).
+
+
 \subsubsection{Hyperparameter tuning}
 
 
@@ -194,7 +237,7 @@ confusion matrix and f1 score
 
 \section{Results}
 
-\begin{table}
+\begin{table}[H]
 \centering
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|llllll|}
@@ -209,7 +252,7 @@ $109$ & $0.13$ & $0.095$ & $17$ & $4$ & $55$ \\
 \label{tab:Tune_NN}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
 \centering
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|llllll|}
