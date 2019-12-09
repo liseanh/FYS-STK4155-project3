@@ -192,8 +192,11 @@ more independently from each other, lessening the chance
 for overfitting.
 
 We also tune the batch size. This leaves us with five 
-hyperparameters to tune. Ideally we would employ cross 
-validation on the train to tune these parameters, but
+hyperparameters to tune. A grid search would be too 
+expensive to perform, so instead we perform a random 
+search. Ideally we would employ cross 
+validation on the train set evaluate the candidate 
+hyperparameters, but
 for computational reasons we have decided to instead
 set aside 10\% of the training set for validation.
 After finding the tuning parameters that maximise 
@@ -212,14 +215,21 @@ confusion matrix and f1 score
 
 \section{Results}
 
+Figure \ref{fig:Correlation} shows the correlation of the features in the training set. Some of the features are highly correlated to each other.
+
 Table \ref{tab:F1} shows the train and test F$_1$ 
 scores for the three models employed in this project. 
 XGBoost seems to outperform the neural network by a
  small margin for this split of the data. Both the
   neural network and XGBoost clearly outperform kNN.
+  This is also evident in the confusion matrices shown
+  in Figure \ref{fig:kNN}, \ref{fig:NN_confusion} and
+  \ref{fig:XGB_confusion}. Both the number of false
+  positives and false negatives are lowest for XGBoost.
   
-  For kNN, the tuning parameter $k$ was found to be best
-  at $k=5$. The hyperparameters decided on in MLP and
+For kNN, the tuning parameter $k$ was found to be best
+at $k=5$. This is also evident in Figure
+\ref{fig:kNN}. The estimated hyperparameters for MLP and
   XGBoost are stated in Table \ref{tab:Tune_NN} and
    \ref{tab:Tune_XGB}.
 
