@@ -44,11 +44,11 @@
 
 
 \section{Introduction}
-In popular culture the neural network is probably the most well known form of 
-machine learning. In recent years many other statistical learning methods have 
-proven themselves as well however. In this project we compare the performance of 
+In popular culture the neural network is probably the most well known form of
+machine learning. In recent years many other statistical learning methods have
+proven themselves as well however. In this project we compare the performance of
 neural networks and gradient boosting in the case of binary classification.
-In addition to these, we also use the much simpler k-nearest neighbours method 
+In addition to these, we also use the much simpler k-nearest neighbours method
 as a baseline for classification performance.
 
 
@@ -75,18 +75,18 @@ are defined as the following by the UCI Machine Learning Repository
         [in \#phot]
   \item \texttt{fConc}: continuous \# ratio of sum of two highest pixels over
         \texttt{fSize} [ratio]
-  \item \texttt{fConc1}: continuous \# ratio of highest pixel over \texttt{fSize} 
+  \item \texttt{fConc1}: continuous \# ratio of highest pixel over \texttt{fSize}
         [ratio]
   \item \texttt{fAsym}: continuous \# distance from highest pixel to center,
-        projected onto major axis [mm] 
+        projected onto major axis [mm]
   \item \texttt{fM3Long}: continuous \# 3rd root of third moment along major
-        axis [mm] 
+        axis [mm]
   \item \texttt{fM3Trans}: continuous \# 3rd root of third moment along minor
-        axis [mm] 
+        axis [mm]
   \item \texttt{fAlpha}: continuous \# angle of major axis with vector to origin
-        [deg] 
-  \item \texttt{fDist}: continuous \# distance from origin to center of ellipse 
-        [mm] 
+        [deg]
+  \item \texttt{fDist}: continuous \# distance from origin to center of ellipse
+        [mm]
   \item \texttt{class}: g, h \# gamma (signal), hadron (background)
 \end{enumerate}
 
@@ -108,80 +108,80 @@ excluded for readability.}
 
 
 \subsection{$\pmb{k}$-Nearest Neighbour (kNN)}
-The $k$-nearest neighbour method is a non-parametric method that consists of 
-using the $k$ observations in the training set in feature space closest to a point 
-$x$ to form a model $\hat{y}$. For regression and binary classification, the 
-method considers a point $x$ and the $k$ closest points $x_i$ in the 
-neighbourhood $N_k(x)$ defined by $k$, such that 
+The $k$-nearest neighbour method is a non-parametric method that consists of
+using the $k$ observations in the training set in feature space closest to a point
+$x$ to form a model $\hat{y}$. For regression and binary classification, the
+method considers a point $x$ and the $k$ closest points $x_i$ in the
+neighbourhood $N_k(x)$ defined by $k$, such that
 \begin{equation} \label{eq:kNN}
 \hat{y} = \frac{1}{k}\sum_{x_i\in N_k(x)} y_i,
 \end{equation}
 i.e. the model output is the average of the $k$ closest points to $x$.
 
-As we are using this method for binary classification, we assign the classes such 
-that 
+As we are using this method for binary classification, we assign the classes such
+that
 \begin{equation}
 \hat{Y}=
 \begin{cases}
       \text{g if }  \hat{y}\leq 0.5\\
       \text{h if } \hat{y} > 0.5
-\end{cases} \cite{hastie}. 
-\end{equation} 
+\end{cases} \cite{hastie}.
+\end{equation}
 
-Alternatively, the observation can be assigned according to the majority class of 
-its neighbours, such that the observation is classified as the most common class 
+Alternatively, the observation can be assigned according to the majority class of
+its neighbours, such that the observation is classified as the most common class
 in its neighbourhood. This is the method used for multiclass classification.
 
-To implement kNN and the hyperparameter optimisation in this project we use the 
-\href{https://scikit-learn.org/stable}{Scikit-Learn} 
-library. 
+To implement kNN and the hyperparameter optimisation in this project we use the
+\href{https://scikit-learn.org/stable}{Scikit-Learn}
+library.
 
 \subsubsection{Hyperparameter tuning}
-The kNN method is a simple approach that only requires tuning of a single 
-hyperparameter $k$. Using $k=1$ results in a highly complex model with high 
-variance, while using $k=N$, where $N$ is the total number of samples in the 
-training set, results in a simple, highly biased model. To find the optimal value 
-for $k$ in our case, we use 5-fold cross-validation on the training set, keeping 
-1/3rd of the total data as test set. 
+The kNN method is a simple approach that only requires tuning of a single
+hyperparameter $k$. Using $k=1$ results in a highly complex model with high
+variance, while using $k=N$, where $N$ is the total number of samples in the
+training set, results in a simple, highly biased model. To find the optimal value
+for $k$ in our case, we use 5-fold cross-validation on the training set, keeping
+1/3rd of the total data as test set.
 
 
 \subsection{Multilayer Perceptron (MLP)}
-A multilayer perceptron (MLP) is a feed-forward neural network. It contains an 
-input layer, one or more hidden layers, with tunable number of nodes and layers, 
-and a final output layer. The information flows only in one direction from the 
-input layer to the output layer. The input and output values of the nodes are 
-determined by an activation function, in addition to the weights and biases of 
-the nodes. For a more extensive explanation of how the different components of 
-the MLP works, please refer to our previous work, \textit{Project 2: Regression 
+A multilayer perceptron (MLP) is a feed-forward neural network. It contains an
+input layer, one or more hidden layers, with tunable number of nodes and layers,
+and a final output layer. The information flows only in one direction from the
+input layer to the output layer. The input and output values of the nodes are
+determined by an activation function, in addition to the weights and biases of
+the nodes. For a more extensive explanation of how the different components of
+the MLP works, please refer to our previous work, \textit{Project 2: Regression
 and Classification} \cite{project2}.
 
-We have chosen to use the Rectified Linear Unit (ReLU) function as our 
-activitation function $f(z)$ between the layers, which is given by 
+We have chosen to use the Rectified Linear Unit (ReLU) function as our
+activitation function $f(z)$ between the layers, which is given by
 \begin{equation}
       f(z) = \max (0,\ z),
 \end{equation}
-and its gradient by 
+and its gradient by
 \begin{equation}
-      f'(z) = 
-      \begin{cases} 
+      f'(z) =
+      \begin{cases}
             0, &  z<0\\
             1, &  z>0
-      \end{cases}. 
+      \end{cases}.
 \end{equation}
-For the activation function of the final output layer, we use the softmax 
+For the activation function of the final output layer, we use the softmax
 function to achieve the categorical outcomes,
 \begin{equation}
       f(z_i)=\frac{\exp(z_i)}{\sum \exp(z_j)}
 \end{equation}
 
 For this project we will be using the \href{https://www.tensorflow.org/}
-{TensorFlow} library to implement the MLP with the addition of the 
-\href{https://scikit-optimize.github.io/}{Scikit-Optimize} library to optimise 
+{TensorFlow} library to implement the MLP with the addition of the
+\href{https://scikit-optimize.github.io/}{Scikit-Optimize} library to optimise
 the hyperparameters.
 
 \subsubsection{Hyperparameter tuning}
-In this project we choose to limit ourselves to two hidden layers for computational reasons, and tune 
-the amount of nodes in both of those layers. 
+In this project we choose to limit ourselves to two hidden layers for computational reasons, and tune
+the amount of nodes in both of those layers.
 
 To counteract the high variance of the model, we introduce
 regularisation using dropout. Dropout is tuned for each
@@ -191,50 +191,97 @@ variance by forcing the other nodes to be able to work
 more independently from each other, lessening the chance
 for overfitting.
 
-We also tune the batch size. This leaves us with five 
-hyperparameters to tune. A grid search would be too 
-expensive to perform, so instead we perform a random 
-search. Ideally we would employ cross 
-validation on the train set evaluate the candidate 
+We also tune the batch size. This leaves us with five
+hyperparameters to tune. A grid search would be too
+expensive to perform, so instead we perform a random
+search. Ideally we would employ cross
+validation on the train set evaluate the candidate
 hyperparameters, but
 for computational reasons we have decided to instead
 set aside 10\% of the training set for validation.
-After finding the tuning parameters that maximise 
-F$_1$ on the validation set, we use these parameters to 
-fit the model on the entire training data including the 
-validation data. This is known as a refit. 
+After finding the tuning parameters that maximise
+F$_1$ on the validation set, we use these parameters to
+fit the model on the entire training data including the
+validation data. This is known as a refit.
 
-\subsection{Gradient Boosting}
+\subsection{Extreme Gradient Boosting (XGB)}
+Boosting is a learning technique based on the idea of combining several weak
+learners $b_m$ into a final strong learner $f_{m_\text{stop}}$, where each
+$f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$,
+\begin{equation}
+      f_{m_\text{stop}} = \sum_{m=0}^{m_\text{stop}} h_m.
+\end{equation}
+
+Gradient boosting is one such method. We consider a loss function $L(y, f(x))$,
+which is iteratively minimised by calculating the negative gradient of the loss
+function to obtain the minimisation direction. To prevent overfitting, the
+boosting step size $\nu \in (0,1)$ is introduced as a tuning parameter, with
+smaller values of $\nu$ resulting in larger shrinkage,
+\begin{equation}
+f_m(x)=f_{m-1}(x) + \nu h_m .
+\end{equation}
+The gradient boosting algorithm goes as follows: \cite{RiccardoGB}
+\begin{enumerate}[leftmargin=5mm, itemsep=0pt,  parsep=1pt]
+\item Initialize the estimate $f_0(x)$
+\item for $m= 1,\ ,\dots,\ m_\text{stop}$:
+      \begin{enumerate}[leftmargin=5mm, itemsep=0pt,  parsep=1pt]
+            \item Compute negative gradient vector
+            \begin{equation*}
+                  u_m = -\frac{\partial L(y,\ f(x))}{\partial f(x)} \bigg\vert
+                  _{f(x)=\hat{f}_{m-1}(x)}
+            \end{equation*}
+            \item Fit the base learner to the negative gradient vector,
+            $b_m(u_m, x)$
+            \item Update the estimate
+            \begin{equation*}
+                  f_m(x) = f_{m-1}(x) + \nu b_m (u_m, x)
+            \end{equation*}
+      \end{enumerate}
+\item Compute final estimate,
+      \begin{equation*}
+            \hat{f}_{m_\text{stop}} (x) =
+            \sum _{m=0}^{m_\text{stop}-1}\nu b_m(u_m, x)
+      \end{equation*}
+\end{enumerate}
+
+For this project, we have chosen to boost decision trees using a variant of
+gradient boosting called extreme gradient boosting (XGB).
+
+
 \subsubsection{Hyperparameter tuning}
 
 
 \subsection{Model evaluation}
-To evaluate the models 
+To evaluate the models
 
 confusion matrix and f1 score
 
 \section{Results}
 
-Figure \ref{fig:Correlation} shows the correlation of the features in the training set. Some of the features are highly correlated to each other.
+Figure \ref{fig:Correlation} shows the correlation of the features in the
+training set. Some of the features are highly correlated to each other.
 
-Table \ref{tab:F1} shows the train and test F$_1$ 
-scores for the three models employed in this project. 
+Table \ref{tab:F1} shows the train and test F$_1$
+scores for the three models employed in this project.
 XGBoost seems to outperform the neural network by a
- small margin for this split of the data. Both the
-  neural network and XGBoost clearly outperform kNN.
-  This is also evident in the confusion matrices shown
-  in Figure \ref{fig:kNN}, \ref{fig:NN_confusion} and
-  \ref{fig:XGB_confusion}. Both the number of false
-  positives and false negatives are lowest for XGBoost.
-  
+small margin for this split of the data. Both the
+neural network and XGBoost clearly outperform kNN.
+This is also evident in the confusion matrices shown
+in Figure \ref{fig:kNN}, \ref{fig:NN_confusion} and
+\ref{fig:XGB_confusion}. Both the number of false
+positives and false negatives are lowest for XGBoost.
+
 For kNN, the tuning parameter $k$ was found to be best
 at $k=5$. This is also evident in Figure
 \ref{fig:kNN}. The estimated hyperparameters for MLP and
-  XGBoost are stated in Table \ref{tab:Tune_NN} and
-   \ref{tab:Tune_XGB}.
+XGBoost are stated in Table \ref{tab:Tune_NN} and
+\ref{tab:Tune_XGB}.
 
 \begin{table}
 \centering
+\caption{Estimated hyperparameters for the neural network model employed in this
+project.}
+\label{tab:Tune_NN}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|llllll|}
 \hline
@@ -244,12 +291,13 @@ $109$ & $0.13$ & $0.095$ & $17$ & $4$ & $55$ \\
 \hline
 \end{tabular}
 }
-\caption{Estimated hyperparameters for the neural network model employed in this project.}
-\label{tab:Tune_NN}
+
 \end{table}
 
-\begin{table}
+\begin{table}[H]
 \centering
+\caption{Estimated hyperparameters for the XGB model employed in this project.}
+\label{tab:Tune_XGB}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|llllll|}
 \hline
@@ -259,11 +307,13 @@ $\eta$ & Depth & $\alpha$ & $\lambda$ & Weight$_\text{min}$ & Epochs \\
 \hline
 \end{tabular}
 }
-\caption{Estimated hyperparameters for the XGB model employed in this project.}
-\label{tab:Tune_XGB}
+
 \end{table}
 
 \begin{table}
+\caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer
+Perceptron and XGBoost.}
+\label{tab:F1}
 %\resizebox{\columnwidth}{!}{
 \centering
 \begin{tabular}{|llll|}
@@ -275,8 +325,6 @@ Test F$_1$   & $0.83$ & $0.87$ & $0.88$\\
 \hline
 \end{tabular}
 %}
-\caption{Train and test F$_1$ scores for k Nearest Neighbours, Multilayer Perceptron and XGBoost.}
-\label{tab:F1}
 \end{table}
 
 \begin{figure*}
@@ -299,12 +347,12 @@ found using the test set.}
 \end{figure}
 
 \section{Discussion}
- 
+
 \section{Conclusion}
 
 
 \section*{Acknowledgements}
-We want to thank the University of California, Irving for providing us with the 
+We want to thank the University of California, Irving for providing us with the
 data used in this project.
 
 
