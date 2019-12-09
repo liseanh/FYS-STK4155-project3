@@ -171,7 +171,7 @@ and its gradient by
 For the activation function of the final output layer, we use the softmax 
 function to achieve the categorical outcomes,
 \begin{equation}
-      f(z_i)=\frac{e^z_i}{\sum e^{z_j}}
+      f(z_i)=\frac{\exp(z_i)}{\sum \exp(z_j)}
 \end{equation}
 
 For this project we will be using the \href{https://www.tensorflow.org/}
@@ -265,7 +265,8 @@ found using the test set.}
 
 
 \section*{Acknowledgements}
-We want to thank the University of California, Irving for providing us with the data used in this project.
+We want to thank the University of California, Irving for providing us with the 
+data used in this project.
 
 
 %\bibliographystyle{iEEEtran}
