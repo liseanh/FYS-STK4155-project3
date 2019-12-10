@@ -91,22 +91,24 @@ are defined as the following by the UCI Machine Learning Repository
 \end{enumerate}
 
 
+
 \begin{figure}
 \includegraphics[scale=1]{{figures/histogram}.pdf}
 \caption{Frequencies of the outcomes g and h in the data set. The numbers of
 instances for the categories were 12332 and 6688 for g and h respectively.}
 \label{fig:Histogram}
 \end{figure}
-m
+
+
 \begin{figure*}
-\includegraphics[scale=0.5]{{figures/correlation_matrix_train}.pdf}
+\includegraphics[scale=1]{{figures/correlation_matrix_train}.pdf}
 \caption{Correlation matrix of the features in the train set. Upper triangle
 excluded for readability.}
 \label{fig:Correlation}
 \end{figure*}
 \section{Methods}
 
-\subsection{$\pmb{k}$-Nearest Neighbour (kNN)}
+\subsection{\textit{k}-Nearest Neighbour (kNN)}
 The $k$-nearest neighbour method is a non-parametric method that consists of
 using the $k$ observations in the training set in feature space closest to a point
 $x$ to form a model $\hat{y}$. For regression and binary classification, the
@@ -170,7 +172,7 @@ and its gradient by
 For the activation function of the final output layer, we use the softmax
 function to achieve the categorical outcomes,
 \begin{equation}
-      f(z_i)=\frac{\exp(z_i)}{\sum \exp(z_j)}
+      f(z_i)=\frac{\exp(z_i)}{\sum_j \exp(z_j)}
 \end{equation}
 
 For this project we will be using the \href{https://www.tensorflow.org/}
@@ -254,19 +256,30 @@ use the same train-validation split as for the neural network. We also employ
 a randomised search instead of a grid search.
 
 \subsection{Model evaluation}
-For classification problems, one can visualise the performance of a model using the so called confusion matrix. In our case it is defined as.
+For classification problems, one can visualise the performance of a model using 
+the so-called confusion matrix. In our case it is defined as
 \begin{align}
-\bm{A}&=\begin{pmatrix}
-\sum (\hat{y}=g, y=g) & \sum(\hat{y}=h, y=g) \\
-\sum(\hat{y}=g, y=h) & \sum(\hat{y}=h, y=h)
-\end{pmatrix}\nonumber \\
-&=\begin{pmatrix}
+\text{confusion matrix}&=
+\begin{pmatrix}
 g_g & g_h \\
 h_g & h_h
-\end{pmatrix}.
+\end{pmatrix},
 \label{eq:Confusion}
 \end{align}
-A perfect model would then only have elements on the diagonal.
+with $g_g$ indicating the amount of correctly classified gamma particles, 
+$g_h$ indicating the amount of incorrectly classified hadrons (false positives), 
+$h_g$ indicating the amount of incorrectly classified gamma particles (false 
+negatives) and $h_h$ indicating the amount of correctly classified hadrons. 
+Mathematically, if $\hat{y_i}$ is our model output and $y$ the true observations, 
+this is expressed as
+\begin{align*}
+  g_g= &\ \sum_{i}^N I(y_i=g_i \text{ and } \hat{y_i}=g_i) &\\
+  g_h= &\ \sum_{i}^N I(y_i=g_i \text{ and } \hat{y_i}=h_i)\\
+  h_g= &\ \sum_{i}^N I(y_i=h_i \text{ and } \hat{y_i}=g_i)\\
+  h_h= &\ \sum_{i}^N I(y_i=h_i \text{ and } \hat{y_i}=h_i)
+\end{align*}
+A perfect model will have $g_h=h_g=0$, i.e. it would not misclassify any of the 
+observations and only have non-zero elements on the diagonal.
 
 A common way to evaluate classification models is the F$_1$-score. This is a 
 metric quantifying the amount of diagonal and off-diagonal elements of the 
@@ -275,35 +288,19 @@ confusion matrix and is defined as
 \text{F}_1=\frac{2 g_g}{2g_g + g_h + h_g}
 \label{eq:F1}
 \end{equation} 
-The F$_1$ score can vary between 0 and 1, 1 representing a perfect fit with 
-no off-diagonal elements. To us the best performing model is the model which 
-maximises $F_1$ and minimises $g_h$ on the test set, as false negatives are 
-worse than false positives in this case because they lead to loss of important 
-data.
+The F$_1$ score values can lie between 0 and 1, with 1 representing a perfect 
+fit with no off-diagonal elements. 
+We use the F$_1$ score to evaluate the MLP and XGB models and select the 
+hyperparameters that yield the models with the highest F$_1$ scores. 
+
+When considering the confusion matrix, the best performing model for this data 
+set is the model which maximises $F_1$ and minimises $g_h$ on the test set, as 
+false negatives are worse than false positives in this case as they lead to loss 
+of important data. 
 
 \section{Results}
 
-Figure \ref{fig:Correlation} shows the correlation of the features in the
-training set. Some of the features are highly correlated to each other.
-
-Table \ref{tab:F1} shows the train and test F$_1$
-scores for the three models employed in this project.
-XGBoost seems to outperform the neural network by a
-small margin for this split of the data. Both the
-neural network and XGBoost clearly outperform kNN.
-This is also evident in the confusion matrices shown
-in Figure \ref{fig:kNN}, \ref{fig:NN_confusion} and
-\ref{fig:XGB_confusion}. Both the number of false
-positives and false negatives are lowest for XGBoost.
-
-For kNN, the tuning parameter $k$ was found to be best
-at $k=5$. This is also evident in Figure
-\ref{fig:kNN}. The estimated hyperparameters for MLP and
-XGBoost are stated in Table \ref{tab:Tune_NN} and
-\ref{tab:Tune_XGB}.
-
-
-\begin{table}[H]
+\begin{table}[h]
 \caption{Estimated optimal hyperparameters found using randomised search for the 
 multilayer perceptron model.}
 \label{tab:Tune_NN}
@@ -321,7 +318,7 @@ multilayer perceptron model.}
 \end{table}
 
 
-\begin{table}[H]
+\begin{table}[h]
 \caption{Estimated optimal hyperparameters found using randomised search for the 
 extreme gradient boosted tree model.}
 \label{tab:Tune_XGB}
@@ -340,7 +337,7 @@ extreme gradient boosted tree model.}
       
       
 
-\begin{table}[H]
+\begin{table}[h]
 \caption{F$_1$ score for the training and test set for our k-nearest neighbour 
 (kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models .}
 \label{tab:F1}
@@ -354,6 +351,7 @@ Test set     & $0.83$ & $0.87$ & $0.88$ \\ \hline
 \end{tabular}
 }
 \end{table}
+
 
 \begin{figure*}
 \includegraphics[scale=1]{{figures/kNN_cv_results}.pdf}
@@ -373,6 +371,43 @@ found using the test set.}
 \caption{Confusion matrix of the gradient boosted model applied to the test set.}
 \label{fig:XGB_confusion}
 \end{figure}
+
+
+
+Figure \ref{fig:Correlation} shows the correlation of the features in the
+training set. Some of the features are highly correlated to each other.
+
+Figure \ref{fig:kNN} shows the result of the cross-validated grid search for the 
+optimal $k$ in the kNN model and the corresponding confusion matrix. The value 
+of $k$ that resulted in the highest F$_1$ score was $k=5$. The F$_1$ scores for 
+the training and test set using this model can be found in Table \ref{tab:F1}.  
+We see that the F$_1$ test score is lower than that of the training score, with 
+values 0.83 and 0.88 respectively. 
+
+The optimal hyperparameters found using randomised search for the MLP model are 
+shown in Table \ref{tab:Tune_NN}. The corresponding confusion matrix and the 
+F$_1$ scores are shown in Figure \ref{fig:NN_confusion} and Table \ref{tab:F1} 
+respectively. The F$_1$ score for the training and test set are both 0.87. 
+
+The results of the hyperparameter randomised search for the XGB model are shown 
+in Table \ref{tab:Tune_XGB}. Figure \ref{fig:XGB_confusion} shows the confusion 
+matrix of the XGB model predictions and the F$_1$ scores for the training and 
+test sets are shown in Table \ref{tab:F1}. The F$_1$ training score is 0.95, 
+which is noticably higher than the test score at 0.88. 
+
+When considering the F$_1$ scores in Table \ref{tab:F1} for the three models , 
+the highest test score value was obtained by the XGB model at 0.88, compared to 
+0.87 for the MLP and the 0.83. This corresponds to the values seen in the 
+confusion matrices of the models in Figure \ref{fig:kNN}, \ref{fig:NN_confusion} 
+and \ref{fig:XGB_confusion}. Additionally, the numbers of false positives and 
+false negatives are the lowest for the XGB model, followed closely by the MLP, 
+with the kNN model having the highest misclassification rates. 
+
+
+
+
+
+
 
 \section{Discussion}
 
