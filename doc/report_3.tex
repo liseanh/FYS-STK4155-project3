@@ -207,7 +207,7 @@ We also tune the batch size. This leaves us with five hyperparameters to tune. A
 grid search would be too expensive to perform, so instead we perform a random
 search. Ideally we would employ cross validation on the train set evaluate the 
 candidate hyperparameters, but for computational reasons we have decided to 
-instead set aside 10\% of the training set for validation. After finding the 
+instead set aside 0.10 of the training set for validation. After finding the 
 tuning parameters that maximise F$_1$ on the validation set, we use these 
 parameters to fit the model on the entire training data including the validation 
 data. This is known as a refit. 
@@ -385,7 +385,18 @@ found using the test set.}
 \end{figure}
 
 
-
+\begin{table}
+\caption{Classification rates for the $k$-nearest neighbour, multilayer 
+perceptron and extreme gradient boosting models.}
+\label{tab:classification_rates}
+  \begin{tabular}{|l|l|l|l|} \hline 
+      & \textbf{kNN } \hspace*{2pt}& \textbf{MLP} \hspace*{2pt}& \textbf{XGB} \hspace*{2pt}\\ \hline 
+      {True positives}  & 0.607 & 0.611 & 0.613 \\ \hline
+      {False negatives} & 0.041 & 0.037 & 0.034 \\ \hline 
+      {False positives} & 0.125 & 0.091 & 0.081 \\ \hline 
+      {True negaties}   & 0.227 & 0.260 & 0.270 \\ \hline  
+  \end{tabular}
+\end{table}
 Figure \ref{fig:Correlation} shows the correlation of the features in the
 training set. Some of the features are highly correlated to each other.
 
@@ -407,14 +418,17 @@ matrix of the XGB model predictions and the F$_1$ scores for the training and
 test sets are shown in Table \ref{tab:F1}. The F$_1$ training score is 0.95, 
 which is noticably higher than the test score at 0.88. 
 
+The true positive, true negative, false positive and false negative rates are 
+shown in Table \ref{tab:classification_rates} for all three models. 
+
 When considering the F$_1$ scores in Table \ref{tab:F1} for the three models , 
 the highest test score value was obtained by the XGB model at 0.88, compared to 
 0.87 for the MLP and the 0.83. This corresponds to the values seen in the 
 confusion matrices of the models in Figure \ref{fig:kNN}, \ref{fig:NN_confusion} 
-and \ref{fig:XGB_confusion}. Additionally, the numbers of false positives and 
-false negatives are the lowest for the XGB model, followed closely by the MLP, 
-with the kNN model having the highest misclassification rates. 
-
+and \ref{fig:XGB_confusion}. Additionally, the rates of false positives and 
+false negatives found in Table \ref{tab:classification_rates} show the lowest 
+values for the XGB model, followed closely by the MLP, with the kNN model having 
+the highest misclassification rates. 
 
 
 
