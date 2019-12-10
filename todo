@@ -1,0 +1,7 @@
+- Finish writing hyperparameter tuning of XGB
+- Rethink where the correlation figure should be, how should we discuss it?
+- Write just a bit more on confusion matrices in Results 
+- Polish introduction, maybe rewrite? 
+- Add and write preprocessing subsection under Data 
+- Write discussion
+- Write abstract and conclusion
