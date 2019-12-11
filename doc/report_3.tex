@@ -300,12 +300,13 @@ while the L2 shrinkage parameter shrinks the weights according to the L2 loss
 term. 
 
 \subsection{Model evaluation}
-One method of evaluating classification models is using the accuracy score, 
+One method of evaluating classification models is by using the accuracy score, 
 \begin{equation}
 \text{accuracy} = \frac{ \sum_i^N I(y_i=\hat{y}_i)}{N},
 \end{equation}
-where $N$ is the number of samples in the data set, $\hat{y}_i$ is our model 
-output and $y_i$ is the true observation.  The error is then given by 
+where $I$ is the indicator function, $N$ is the number of samples in the data 
+set, $\hat{y}_i$ is our model output and $y_i$ is the true observation. The 
+error is then given by 
 \begin{equation}
 \text{error} = 1-\text{accuracy}. 
 \end{equation}
@@ -462,7 +463,8 @@ test sets are shown in Table \ref{tab:F1}. The F$_1$ training score is 0.95,
 which is noticably higher than the test score at 0.88. 
 
 The true positive, true negative, false positive and false negative rates are 
-shown in Table \ref{tab:classification_rates} for all three models. 
+shown in Table \ref{tab:classification_rates} for all three models along with 
+the error rates. 
 
 When considering the F$_1$ scores in Table \ref{tab:F1} for the three models , 
 the highest test score value was obtained by the XGB model at 0.88, compared to 
@@ -482,9 +484,17 @@ The F$_1$ score is lower for the test set, indicating that the predictive
 capability of the model is notably reduced on the test set compared to the 
 training set. However, looking at the graph in Figure \ref{fig:kNN} of the 
 validation F$_1$ score over $k$, it is not clear if using another $k$ would have 
-resulted in a better model. 
+resulted in a better model. Generally, the kNN method performs well, but can be 
+highly unstable. 
 
-
+The F$_1$ test and training scores in Table \ref{tab:F1} of the MLP model are 
+both 0.87, suggesting that the chosen hyperparameters in Table 
+\ref{tab:Tune_NN} did not lead to an overfitted model. Neural networks in 
+general are capable of producing highly complex models and are consequently 
+prone to overfitting. As this does not seem to have occurred here, it is possible 
+we could have been able to find a better-performing model by tweaking the 
+hyperparameters further to find more complex models with higher predictive 
+power. 
 
 From our observations in Table \ref{tab:F1} and \ref{tab:classification_rates}, 
 it seems clear that the best-performing model in our case was the XGB model. It 
