@@ -311,13 +311,13 @@ with $g_g$ indicating the amount of correctly classified gamma particles,
 $g_h$ indicating the amount of incorrectly classified hadrons (false positives), 
 $h_g$ indicating the amount of incorrectly classified gamma particles (false 
 negatives) and $h_h$ indicating the amount of correctly classified hadrons. 
-Mathematically, if $\hat{y_i}$ is our model output and $y$ the true observations, 
-this is expressed as
+Mathematically, if $\hat{y_i}$ is our model output, $y$ the true observations, 
+and $I$ the indicator function, this is expressed as
 \begin{align*}
   g_g= &\ \sum_{i}^N I(y_i=g_i \text{ and } \hat{y_i}=g_i) &\\
   g_h= &\ \sum_{i}^N I(y_i=g_i \text{ and } \hat{y_i}=h_i)\\
   h_g= &\ \sum_{i}^N I(y_i=h_i \text{ and } \hat{y_i}=g_i)\\
-  h_h= &\ \sum_{i}^N I(y_i=h_i \text{ and } \hat{y_i}=h_i)
+  h_h= &\ \sum_{i}^N I(y_i=h_i \text{ and } \hat{y_i}=h_i).
 \end{align*}
 A perfect model will have $g_h=h_g=0$, i.e. it would not misclassify any of the 
 observations and only have non-zero elements on the diagonal.
@@ -457,10 +457,6 @@ and \ref{fig:XGB_confusion}. Additionally, the rates of false positives and
 false negatives found in Table \ref{tab:classification_rates} show the lowest 
 values for the XGB model, followed closely by the MLP, with the kNN model having 
 the highest misclassification rates. 
-
-
-
-
 
 
 \section{Discussion}
