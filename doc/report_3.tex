@@ -300,8 +300,19 @@ while the L2 shrinkage parameter shrinks the weights according to the L2 loss
 term. 
 
 \subsection{Model evaluation}
-For classification problems, one can visualise the performance of a model using 
-the so-called confusion matrix. In our case it is defined as
+One method of evaluating classification models is using the accuracy score, 
+\begin{equation}
+\text{accuracy} = \frac{ \sum_i^N I(y_i=\hat{y}_i)}{N},
+\end{equation}
+where $N$ is the number of samples in the data set, $\hat{y}_i$ is our model 
+output and $y_i$ is the true observation.  The error is then given by 
+\begin{equation}
+\text{error} = 1-\text{accuracy}. 
+\end{equation}
+However, as the data set we are using is imbalanced, this is a poor metric of 
+model performance. 
+Instead, we can visualise the performance of a model using the so-called 
+confusion matrix. In our case it is defined as
 \begin{equation}
 \text{confusion matrix}=
 \begin{pmatrix}
@@ -425,11 +436,12 @@ perceptron and extreme gradient boosting models.}
       {True positives}  & 0.607 & 0.611 & 0.613 \\ \hline
       {False negatives} & 0.041 & 0.037 & 0.034 \\ \hline 
       {False positives} & 0.125 & 0.091 & 0.081 \\ \hline 
-      {True negaties}   & 0.227 & 0.260 & 0.270 \\ \hline  
+      {True negatives}   & 0.227 & 0.260 & 0.270 \\ \hline  
+      Error             & 0.166 & 0.128 & 0.116 \\ \hline
   \end{tabular}
 \end{table}
-Figure \ref{fig:Correlation} shows the correlation of the features in the
-training set. Some of the features are highly correlated to each other.
+%Figure \ref{fig:Correlation} shows the correlation of the features in the
+%training set. Some of the features are highly correlated to each other.
 
 Figure \ref{fig:kNN} shows the result of the cross-validated grid search for the 
 optimal $k$ in the kNN model and the corresponding confusion matrix. The value 
@@ -471,6 +483,8 @@ capability of the model is notably reduced on the test set compared to the
 training set. However, looking at the graph in Figure \ref{fig:kNN} of the 
 validation F$_1$ score over $k$, it is not clear if using another $k$ would have 
 resulted in a better model. 
+
+
 
 From our observations in Table \ref{tab:F1} and \ref{tab:classification_rates}, 
 it seems clear that the best-performing model in our case was the XGB model. It 
