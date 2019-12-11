@@ -44,12 +44,13 @@
 
 
 \section{Introduction}
-In popular culture the neural network is probably the most well known form of
-machine learning. In recent years many other statistical learning methods have
-proven themselves as well however. In this project we compare the performance of
-neural networks and gradient boosting in the case of binary classification.
-In addition to these, we also use the much simpler k-nearest neighbours method
-as a baseline for classification performance.
+A wide array of machine learning methods have been developed over the years for 
+various predictive purposes, with the the neural network being the probably most 
+well-known method among the general population. In recent years many other 
+statistical learning methods have proven themselves as well however. In this 
+project we compare the performance of neural networks and gradient boosting in 
+the case of binary classification. In addition to these, we also use the much 
+simpler k-nearest neighbours method as a baseline for classification performance.
 
 
 
@@ -290,7 +291,8 @@ The minimum child weight is the minimum weight needed to construct a new tree
 node, meaning that the tree needs more samples corresponding to the split to 
 create the node. Similarly to the maximum tree depth, it controls model 
 complexity of the tree. Higher values of minimum child weight correspond to less 
-complex models, while lower values correspond to more complex models. 
+complex models, while lower values correspond to more complex models 
+\cite{xgboost_tuning}.
 
 The L1 shrinkage parameter shrinks the weights according to the L1 loss term, 
 while the L2 shrinkage parameter shrinks the weights according to the L2 loss 
@@ -299,14 +301,14 @@ term.
 \subsection{Model evaluation}
 For classification problems, one can visualise the performance of a model using 
 the so-called confusion matrix. In our case it is defined as
-\begin{align}
-\text{confusion matrix}&=
+\begin{equation}
+\text{confusion matrix}=
 \begin{pmatrix}
 g_g & g_h \\
 h_g & h_h
 \end{pmatrix},
 \label{eq:Confusion}
-\end{align}
+\end{equation}
 with $g_g$ indicating the amount of correctly classified gamma particles, 
 $g_h$ indicating the amount of incorrectly classified hadrons (false positives), 
 $h_g$ indicating the amount of incorrectly classified gamma particles (false 
@@ -460,6 +462,22 @@ the highest misclassification rates.
 
 
 \section{Discussion}
+Although the cross-validation procedure on the kNN model gave the optimal value 
+$k=5$ as the amount of neighbours to consider in the algorithm, the F$_1$ score 
+in Table \ref{tab:F1} still suggests that there might have been a model overfit. 
+The F$_1$ score is lower for the test set, indicating that the predictive 
+capability of the model is notably reduced on the test set compared to the 
+training set. However, looking at the graph in Figure \ref{fig:kNN} of the F$_1$ 
+score over $k$, it is not clear if using another $k$ would have resulted in a 
+better model.  With the exception of $k=5$, the F$_1$ score never seems to 
+\textbf{RETURN TO THIS AT SOME TIME, CONSULT BERNHARD FIRST}
+% hmm, ask Bernhard about this. The graph never surpasses 0.825\approx 0.83, so 
+% is this the graph for the test set? How have we calculated the best k then? 
+% But then how does this represent the cross-validation? 
+
+From our observations in Table \ref{tab:F1} and \ref{tab:classification_rates}, 
+it seems clear that the best-performing model in our case was the XGB model. It 
+has both the lowest rate of false negatives and the highest F$_1$ score. 
 
 \section{Conclusion}
 
