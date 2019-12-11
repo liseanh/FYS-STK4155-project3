@@ -112,7 +112,7 @@ the test set, keeping the proportion of the two outcomes approximately equal.
 All the explanatory features are continuous, so each feature was centered by 
 subtracting the mean of its values and scaled with respect to its standard 
 deviation. The scaling and centering was executed with respect to each feature 
-in the training set values. 
+in the training set. 
 
 The response \texttt{class} is a categorical variable with classes g (gamma 
 particle) and h (hadron). These were onehot-encoded for our $k$-nearest neighbour 
@@ -189,9 +189,7 @@ function to achieve the categorical outcomes,
 \end{equation}
 
 For this project we will be using the \href{https://www.tensorflow.org/}
-{TensorFlow} library to implement the MLP with the addition of the
-\href{https://scikit-optimize.github.io/}{Scikit-Optimize} library to optimise
-the hyperparameters.
+{TensorFlow} library to implement the MLP.
 
 \subsubsection{Hyperparameter tuning}
 In this project we choose to limit ourselves to two hidden layers for 
@@ -205,7 +203,9 @@ lessening the chance for overfitting.
 
 We also tune the batch size. This leaves us with five hyperparameters to tune. A 
 grid search would be too expensive to perform, so instead we perform a random
-search. Ideally we would employ cross validation on the train set evaluate the 
+search using the \href{https://scikit-optimize.github.io/}{Scikit-Optimize} 
+library to optimise the hyperparameters.
+Ideally we would employ cross validation on the training set to evaluate the 
 candidate hyperparameters, but for computational reasons we have decided to 
 instead set aside 0.10 of the training set for validation. After finding the 
 tuning parameters that maximise F$_1$ on the validation set, we use these 
@@ -216,7 +216,7 @@ data. This is known as a refit.
 \subsection{Gradient Boosting and Extreme Gradient Boosting (XGB)}
 Boosting is a learning technique based on the idea of combining several weak
 learners $b_m$ into a final strong learner $f_{m_\text{stop}}$, where each
-$f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$,
+$f_m$ is improved from the previous iteration $f_{m-1}$ through the step $h_m$, 
 \begin{equation}
       f_{m_\text{stop}} = \sum_{m=0}^{m_\text{stop}} h_m.
 \end{equation}
@@ -226,7 +226,7 @@ which is minimised by calculating the negative gradient of the loss
 function to obtain the minimisation direction. To prevent overfitting, the
 boosting step size, also referred to as learning rate, $\nu \in (0,1)$ is 
 introduced as a tuning parameter, with smaller values of $\nu$ resulting in 
-larger shrinkage, 
+larger shrinkage,  
 \begin{equation}
 f_m(x)=f_{m-1}(x) + \nu h_m .
 \end{equation}
@@ -254,19 +254,47 @@ The gradient boosting algorithm goes as follows: \cite{RiccardoGB}
       \end{equation*}
 \end{enumerate}
 
-For this project, we have chosen to boost decision trees using a variant of
-gradient boosting called extreme gradient boosting (XGB).
-
+For this project, we have chosen to boost decision trees using an implementation 
+of gradient boosting called extreme gradient boosting (XGB) using the 
+\href{https://github.com/dmlc/xgboost}{XGBoost} library.
 
 \subsubsection{Hyperparameter tuning}
-The XGBoost package has many hyperparameters added on top of the ordinary 
-gradient boosting algorithm. 
+The XGBoost package has many additional hyperparameters in comparison to the 
+ordinary gradient boosting algorithm we described. 
+As with the neural network model, we also do not use cross validation here due 
+to computational cost. We instead use the same train-validation split we had for 
+the neural network and employ a randomised search instead of a grid search using 
+Scikit-Optimize to find the optimal hyperparameters. 
 
-The learning rate $\nu$
+The hyperparameters we are tuning are the learning rate, maximum tree depth of 
+the base learners, minimum child weight, and the L1 and L2 shrinkage parameters 
+on the weights. Another useful potential hyperparameter to tune would be the 
+number of estimators to fit, but we choose to let this be managed by XGBoost's 
+early stopping criterion. This criterion stops the training if the validation 
+metric does not improve at least once over a set number of iterations, which we 
+have chosen to be 3, meaning the algorithm will stop if the three last iterations did 
+not improve the model. 
 
-As with the neural network model, we also do not use cross validation here. We 
-use the same train-validation split as for the neural network. We also employ
-a randomised search instead of a grid search.
+The learning rate as described earlier controls the step size of the boosting 
+algorithm with smaller values leading to smaller steps, thus decreasing the 
+amount of correction in each term and preventing overfit. Lower learning rates 
+will lead to an increase in boosting iterations before the stopping criterion is 
+met. 
+
+The maximum tree depth is the maximum amount of nodes a base tree is alllowed to 
+grow. Trees with more nodes are able to model more complex relations. However, 
+allowing an excessive amount of nodes will likely lead to overly complex models, 
+so we are tuning this in an attempt to prevent overfit. 
+
+The minimum child weight is the minimum weight needed to construct a new tree 
+node, meaning that the tree needs more samples corresponding to the split to 
+create the node. Similarly to the maximum tree depth, it controls model 
+complexity of the tree. Higher values of minimum child weight correspond to less 
+complex models, while lower values correspond to more complex models. 
+
+The L1 shrinkage parameter shrinks the weights according to the L1 loss term, 
+while the L2 shrinkage parameter shrinks the weights according to the L2 loss 
+term. 
 
 \subsection{Model evaluation}
 For classification problems, one can visualise the performance of a model using 
@@ -338,12 +366,12 @@ extreme gradient boosted tree model.}
 \resizebox{\columnwidth}{!}{
   \begin{tabular}{|l|l|} \hline
       \textbf{Hyperparameter} & \textbf{Optimal value} \hspace{2pt} \\ \hline
+      Number of estimators    & 125       \\ \hline 
       Learning rate           & 0.048     \\ \hline 
-      Epochs                  & 125       \\ \hline 
       Maximum  tree depth     & 9         \\ \hline 
+      Minimum child weight    & 3         \\ \hline 
       L1 shrinkage parameter  & 0.0074    \\ \hline 
       L2 shrinkage parameter  & 0.0035    \\ \hline 
-      Minimum child weight    & 3         \\ \hline 
   \end{tabular}
 }
 \end{table}
