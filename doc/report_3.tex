@@ -97,8 +97,8 @@ are defined as the following by the UCI Machine Learning Repository
 instances for the categories were 12332 and 6688 for g and h respectively.}
 \label{fig:Histogram}
 \end{figure}
-
 The correlation between the features can be seen in Figure \ref{fig:Correlation}.
+
 
 \begin{figure*}
 \includegraphics[scale=1]{{figures/correlation_matrix_train}.pdf}
@@ -106,6 +106,7 @@ The correlation between the features can be seen in Figure \ref{fig:Correlation}
 excluded for readability.}
 \label{fig:Correlation}
 \end{figure*}
+
 
 \subsection*{Preprocessing}
 To preprocess the data, we first split the data into a training set and a test 
@@ -299,6 +300,10 @@ The L1 shrinkage parameter shrinks the weights according to the L1 loss term,
 while the L2 shrinkage parameter shrinks the weights according to the L2 loss 
 term. 
 
+There are numerous other potential hyperparameters to tune, but we have chosen 
+to focus on these five as tuning all of the parameters would be computationally 
+expensive. 
+
 \subsection{Model evaluation}
 One method of evaluating classification models is by using the accuracy score, 
 \begin{equation}
@@ -356,7 +361,7 @@ of important data.
 
 \section{Results}
 
-\begin{table}[h]
+\begin{table}
 \caption{Estimated optimal hyperparameters found using randomised search for the 
 multilayer perceptron model.}
 \label{tab:Tune_NN}
@@ -374,7 +379,7 @@ multilayer perceptron model.}
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}
 \caption{Estimated optimal hyperparameters found using randomised search for the 
 extreme gradient boosted tree model.}
 \label{tab:Tune_XGB}
@@ -392,7 +397,7 @@ extreme gradient boosted tree model.}
 \end{table}
       
 
-\begin{table}[h]
+\begin{table}
 \caption{F$_1$ score for the training and test set for our k-nearest neighbour 
 (kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models .}
 \label{tab:F1}
@@ -428,19 +433,7 @@ found using the test set.}
 \end{figure}
 
 
-\begin{table}
-\caption{Classification rates for the $k$-nearest neighbour, multilayer 
-perceptron and extreme gradient boosting models.}
-\label{tab:classification_rates}
-  \begin{tabular}{|l|l|l|l|} \hline 
-      & \textbf{kNN } \hspace*{2pt}& \textbf{MLP} \hspace*{2pt}& \textbf{XGB} \hspace*{2pt}\\ \hline 
-      {True positives}  & 0.607 & 0.611 & 0.613 \\ \hline
-      {False negatives} & 0.041 & 0.037 & 0.034 \\ \hline 
-      {False positives} & 0.125 & 0.091 & 0.081 \\ \hline 
-      {True negatives}   & 0.227 & 0.260 & 0.270 \\ \hline  
-      Error             & 0.166 & 0.128 & 0.116 \\ \hline
-  \end{tabular}
-\end{table}
+
 %Figure \ref{fig:Correlation} shows the correlation of the features in the
 %training set. Some of the features are highly correlated to each other.
 
@@ -475,6 +468,19 @@ false negatives found in Table \ref{tab:classification_rates} show the lowest
 values for the XGB model, followed closely by the MLP, with the kNN model having 
 the highest misclassification rates. 
 
+\begin{table}
+\caption{Classification rates for the $k$-nearest neighbour, multilayer 
+perceptron and extreme gradient boosting models.}
+\label{tab:classification_rates}
+  \begin{tabular}{|l|l|l|l|} \hline 
+      & \textbf{kNN } \hspace*{2pt}& \textbf{MLP} \hspace*{2pt}& \textbf{XGB} \hspace*{2pt}\\ \hline 
+      {True positives}  & 0.607 & 0.611 & 0.613 \\ \hline
+      {False negatives} & 0.041 & 0.037 & 0.034 \\ \hline 
+      {False positives} & 0.125 & 0.091 & 0.081 \\ \hline 
+      {True negatives}  & 0.227 & 0.260 & 0.270 \\ \hline  
+      Error             & 0.166 & 0.128 & 0.116 \\ \hline
+  \end{tabular}
+\end{table}
 
 \section{Discussion}
 Although the cross-validation procedure on the kNN model gave the value $k=5$ as 
@@ -495,6 +501,19 @@ prone to overfitting. As this does not seem to have occurred here, it is possibl
 we could have been able to find a better-performing model by tweaking the 
 hyperparameters further to find more complex models with higher predictive 
 power. 
+
+The XGB model F$_1$ test and training scores are 0.88 and 0.95 respectively. 
+The large discrepancy in scores is indicative of an overfitted model, and is 
+surprisingly the largest difference observed from our three models. Looking at 
+the XGB model's hyperparameters in Table \ref{tab:Tune_XGB}, a maximum tree 
+depth of 9 might create overly complex models. Additionally, both the optimal 
+values for the L1 and L2 shrinkage parameters are small at 0.0074 and 0.0035 
+respectively, which might suggest that setting both to zero and choosing to 
+instead tune other hyperparameters would yield better results. Some of the 
+candidate hyperparameters to tune in an attempt to reduce overfit could be to 
+implement the subsample ratios of the features or samples used to grow each 
+tree. As the tree would be built on a different data set each iteration, the 
+probability of overfitting to certain samples or features would be reduced. 
 
 From our observations in Table \ref{tab:F1} and \ref{tab:classification_rates}, 
 it seems clear that the best-performing model in our case was the XGB model. It 
