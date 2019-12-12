@@ -1,7 +1,6 @@
 - Rethink where the correlation figure should be, how should we discuss it?
 - Polish introduction, maybe rewrite? 
 - Write discussion
-  - overfit or no for all three models 
   - discuss confusion matrices and misclassification rates 
   - discuss hyperparameters 
   - which model was the best 
