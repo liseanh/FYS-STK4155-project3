@@ -469,8 +469,8 @@ values for the XGB model, followed closely by the MLP, with the kNN model having
 the highest misclassification rates. 
 
 \begin{table}
-\caption{Classification rates for the $k$-nearest neighbour, multilayer 
-perceptron and extreme gradient boosting models.}
+\caption{Classification rates for the $k$-nearest neighbour (kNN), multilayer 
+perceptron (MLP) and extreme gradient boosting (XGB) models.}
 \label{tab:classification_rates}
   \begin{tabular}{|l|l|l|l|} \hline 
       & \textbf{kNN } \hspace*{2pt}& \textbf{MLP} \hspace*{2pt}& \textbf{XGB} \hspace*{2pt}\\ \hline 
@@ -515,9 +515,12 @@ implement the subsample ratios of the features or samples used to grow each
 tree. As the tree would be built on a different data set each iteration, the 
 probability of overfitting to certain samples or features would be reduced. 
 
-From our observations in Table \ref{tab:F1} and \ref{tab:classification_rates}, 
-it seems clear that the best-performing model in our case was the XGB model. It 
-has both the lowest rate of false negatives and the highest F$_1$ score. 
+Despite the discrepancy in F$_1$ training and test scores of the XGB model, the 
+model seems to be the best-performing model in our case. Looking at the 
+confusion matrices in Figure \ref{fig:kNN}, \ref{fig:NN_confusion}, 
+\ref{fig:XGB_confusion}test and Table \ref{tab:classification_rates}, the XGB 
+method gave the lowest rates of false positives and false negatives, while also 
+being the method with the highest rates of true positives and true negatives. 
 
 \section{Conclusion}
 
