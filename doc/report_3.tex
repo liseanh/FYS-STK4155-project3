@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{verbatim}
 \usepackage{float}
+\usepackage{stfloats}
 \usepackage{array}
 \usepackage{xfrac}
 \usepackage{mathpazo}
@@ -26,12 +27,14 @@
 \setlength{\columnsep}{15pt}
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
+
 \title{FYS-STK3155/4155 Applied Data Analysis and Machine Learning - Project 3 }
 
 \author{Lotsberg, Bernhard Nornes \\ Nguyen, Anh-Nguyet Lise \and
 \url{https://github.com/liseanh/FYS-STK4155-project3}}
 \date{November - December 2019}
 \begin{document}
+
 \twocolumn[
   \begin{@twocolumnfalse}
     \maketitle
@@ -277,7 +280,8 @@ The gradient boosting algorithm goes as follows: \cite{RiccardoGB}
 For this project, we have chosen to boost decision trees using an implementation 
 of gradient boosting called extreme gradient boosting (XGB) using the 
 \href{https://github.com/dmlc/xgboost}{XGBoost} library. Decision trees are 
-well explained in \texttt{The Elements of Statistical Learning} \cite[chapter 9.2]{hastie}.
+well explained in \textit{The Elements of Statistical Learning} 
+\cite[chapter 9.2]{hastie}.
 
 \subsubsection{Hyperparameter tuning}
 The XGBoost package has many additional hyperparameters in comparison to the 
@@ -372,14 +376,19 @@ fit with no off-diagonal elements.
 We use the F$_1$ score to evaluate the MLP and XGB models and select the 
 hyperparameters that yield the models with the highest F$_1$ scores. 
 
+
 When considering the confusion matrix, the best performing model for this data 
-set is the model which maximises $F_1$ and minimises $g_h$ on the test set, as 
-false negatives are worse than false positives in this case as they lead to loss 
-of important data. 
+set is the model which maximises $F_1$ and minimises the false negatives $g_h$ 
+on the test set. It is important to minimise the false negatives in this data set 
+due to the real nature of this data. In real life, the hadron events occur more 
+frequently than the gamma particle events, which means that misclassifying 
+\texttt{class} instances of g as h would lead to loss of valuable data. 
+
 
 \section{Results}
 
-\begin{table}
+
+\begin{table}[h]
 \caption{Estimated optimal hyperparameters found using randomised search for the 
 Multilayer Perceptron model.}
 \label{tab:Tune_NN}
@@ -397,7 +406,7 @@ Multilayer Perceptron model.}
 \end{table}
 
 
-\begin{table}
+\begin{table}[h]
 \caption{Estimated optimal hyperparameters found using randomised search for the 
 Extreme Gradient Boosting model.}
 \label{tab:Tune_XGB}
@@ -415,25 +424,8 @@ Extreme Gradient Boosting model.}
 \end{table}
       
 
-\begin{table}
-\caption{F$_1$ score for the training and test set for our k-Nearest Neighbour 
-(kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models. 
-Hyperparameters used can be found in Figure \ref{fig:NN_confusion}, Table 
-\ref{tab:Tune_NN} and \ref{tab:Tune_XGB} respectively.}
-\label{tab:F1}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{F$_1$ score}  & \textbf{kNN} \hspace{10pt} 
-& \textbf{MLP} \hspace{10pt} & \textbf{XGB}  \hspace{10pt}\\ \hline
-Training set & $0.88$ & $0.87$ & $0.95$ \\ \hline
-Test set     & $0.83$ & $0.87$ & $0.88$ \\ \hline
-\end{tabular}
-}
-\end{table}
 
-
-\begin{figure*}
+\begin{figure*}[h]
 \includegraphics[scale=1]{{figures/kNN_cv_results}.pdf}
 \caption{Results from tuned kNN using 5-fold cross validation. The confusion 
 matrix was calculated on the test set.}
@@ -454,10 +446,26 @@ The hyperparameters used can be found in Table \ref{tab:Tune_XGB}}
 \label{fig:XGB_confusion}
 \end{figure}
 
+\begin{table}
+\caption{F$_1$ score for the training and test set for our k-Nearest Neighbour 
+(kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models. 
+Hyperparameters used can be found in Figure \ref{fig:NN_confusion}, Table 
+\ref{tab:Tune_NN} and \ref{tab:Tune_XGB} respectively.}
+\label{tab:F1}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{F$_1$ score}  & \textbf{kNN} \hspace{10pt} 
+& \textbf{MLP} \hspace{10pt} & \textbf{XGB}  \hspace{10pt}\\ \hline
+Training set & $0.88$ & $0.87$ & $0.95$ \\ \hline
+Test set     & $0.83$ & $0.87$ & $0.88$ \\ \hline
+\end{tabular}
+}
+\end{table}
 
 
-%Figure \ref{fig:Correlation} shows the correlation of the features in the
-%training set. Some of the features are highly correlated to each other.
+
+
 
 Figure \ref{fig:kNN} shows the result of the cross-validated grid search for the 
 optimal $k$ in the kNN model and the corresponding confusion matrix. The value 
@@ -549,47 +557,50 @@ confusion matrices in Figure \ref{fig:kNN}, \ref{fig:NN_confusion},
 method gave the lowest rate of false negatives, while also 
 being the method with the lowest rate of false positives. 
 
-The kNN method is outperforms by both the XGB and MLP models, while the XGB 
+The kNN method is outperformed by both the XGB and MLP models, while the XGB 
 model only slightly outperforms the MLP model. As stated previously it may be 
-possible to tune the MLP model to perform better. We still argue that the XGB
-model is the best model here though, as it is much less computationally expensive.
-
+possible to tune the hyperparameters of the MLP model to improve performance. 
+We still argue that the XGB model is the optimal method in this case, as it is 
+not as computationally expensive as the MLP. 
 
 It is important to keep in mind that this comparison of the model is only for a 
-single random train - test split of our data. To get a more statistically 
-significant comparison in the future, cross validation should also be used for 
+single random train-test split of our data set. To get a more statistically 
+significant comparison in the future, cross-validation should also be used for 
 the model selection.
 
-As seen in Figure \ref{fig:Correlation} several features are highly correlated.
-If we for instance look at the features \texttt{fConc} and \texttt{fConc1}, 
-they are almost $100\%$ correlated to each other and have very similar correlations 
-to other features as well. This implies that we could benefit from dimensionality 
-reduction here. This could actually improve the kNN model a fair amount as it is 
-highly affected by the curse of dimensionality \cite{hastie}.
+As seen in Figure \ref{fig:Correlation} several of the features are highly 
+correlated. If we for instance look at the features \texttt{fConc} and 
+\texttt{fConc1}, they are almost $100\%$ correlated to each other. This implies 
+that we could benefit from dimensionality reduction, as keeping all of these 
+highly correlated features would be redundant and increase the model variance. 
+Feature elimination would perhaps benefit the kNN model in particular as it is 
+highly affected by the curse of dimensionality and generally returns 
+models with high variance \cite{hastie}. 
+
 
 \section{Conclusion}
-We have compared three fundamentally different statistical learning models to 
-perform binary classification. XGB seems to be the best performing model for 
-our split of the data while also being simpler to tune than the MLP because of 
-its reduced computational cost.
+We have implemented three fundamentally different statistical learning models to 
+perform binary classification and compared their performances. XGB seems to be 
+the best performing model for our split of the data while also being simpler to 
+tune than the MLP due to its reduced computational cost.
 
 In the future it could be beneficial to look into more methods related to kNN, as
-it performed well despite being so simple. Performing dimensionality reduction 
-could also help kNN perform better.
-In addition more time should be spent on tuning the MLP model to see if it can
-achieve better performance than XGB. It could also be beneficial to get a 
-more statistically stable comparison between the models by using cross validation 
-for model selection, avoiding the possibility that our models over or underperform 
-on the random train and test split done on the data.
+it performed well despite its simplicity, achieving an F$_1$ score of 0.83. 
+% Performing dimensionality reduction could also help kNN perform better.
+Both the MLP and XGB methods performed well, achieving similar scores of 0.87 
+and 0.88 respectively. It is likely that further improvement in the models can 
+be attained by additional tuning of the hyperparameters.
+It could also be beneficial to get a more statistically stable comparison 
+between the models by using cross-validation for model selection, avoiding the 
+possibility that our models either overperform or underperform on the singular 
+random train and test split of the data.
 
 \section*{Acknowledgements}
 We want to thank the University of California, Irving for providing us with the
-data used in this project.
-
-We are grateful to the developers of the libraries Scikit-learn, XGB, TensorFlow 
+data used in this project. We are grateful to the developers of the libraries Scikit-learn, XGB, TensorFlow 
 and Keras as we used their codes extensively in this project.
-
-
+Lastly, we would like to thank Morten Hjorth-Jensen for organising this exciting 
+and challenging course, and to the group teachers for their assistance and input!
 %\bibliographystyle{iEEEtran}
 \bibliography{bibliography}
 
