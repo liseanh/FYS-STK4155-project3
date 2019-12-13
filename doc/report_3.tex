@@ -522,8 +522,26 @@ Despite the discrepancy in F$_1$ training and test scores of the XGB model, the
 model seems to be the best-performing model in our case. Looking at the 
 confusion matrices in Figure \ref{fig:kNN}, \ref{fig:NN_confusion}, 
 \ref{fig:XGB_confusion}test and Table \ref{tab:classification_rates}, the XGB 
-method gave the lowest rates of false positives and false negatives, while also 
-being the method with the highest rates of true positives and true negatives. 
+method gave the lowest rate of false negatives, while also 
+being the method with the lowest rate of false positives. 
+
+The kNN method is outperformes by both the XGB and MLP models, while the XGB 
+model only slightly outperforms the MLP model. As stated previously it may be 
+possible to tune the MLP model to perform better. We still argue that the XGB
+model is the best model here though, as it is much less computationally expensive.
+
+
+It is important to keep in mind that this comparison of the model is only for a 
+single random train and test split of our data. To get a more statistically 
+significant comparison in the future, cross validation should also be used for 
+the model selection.
+
+As seen in Figure \ref{fig:Correlation} several features are highly correlated.
+If we for instance look at the features \texttt{fConc} and \texttt{fConc1}, 
+they are almost $100\%$ correlated to each other and have very similar correlations 
+to other features as well. This implies that we could benefit from dimensionality 
+reduction here. This could actually improve the kNN model a fair amount as it is 
+highly affected by the curse of dimensionality \cite{hastie}.
 
 \section{Conclusion}
 
