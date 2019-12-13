@@ -35,10 +35,17 @@
 \twocolumn[
   \begin{@twocolumnfalse}
     \maketitle
-    \begin{abstract}
-		Whole page: \printinunitsof{in}\prntlen{\textwidth}
-		Column: \printinunitsof{in}\prntlen{\columnwidth}
-	\end{abstract}
+      \begin{abstract}
+      We implement and compare k Nearest Neighbours (kNN), a Multilayer Perceptron
+      (MLP) and eXtreme Gradient Boosting (XGB) on simulated binary classification 
+      data. MLP and XGB perform Similarly when evaluating the test F$_1$ scores, 
+      with F$_1\approx 0.87$ and F$_1\approx 0.88$ respectively. kNN performed 
+      well despite being a much simpler model, achieving F$_1 \approx 0.83$. 
+      Because of the importance of avoiding false negatives and the smaller 
+      computational cost of XGB compared to the MLP, we find XGB to be the best 
+      method overall for this split of the data. In the future one should look 
+      into model stability over several train test splits of the data.
+      \end{abstract}
   \end{@twocolumnfalse}
 ]
 
@@ -91,7 +98,7 @@ are defined as the following by the UCI Machine Learning Repository
   \item \texttt{class}: g, h \# gamma (signal), hadron (background)
 \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}
 \includegraphics[scale=1]{{figures/histogram}.pdf}
 \caption{Frequencies of the outcomes g and h in the data set. The numbers of
 instances for the categories were 12332 and 6688 for g and h respectively.}
@@ -492,9 +499,11 @@ in Table \ref{tab:F1} still suggests that there might have been a model overfit.
 The F$_1$ score is lower for the test set, indicating that the predictive 
 capability of the model is notably reduced on the test set compared to the 
 training set. However, looking at the graph in Figure \ref{fig:kNN} of the 
-validation F$_1$ score over $k$, it is not clear if using another $k$ would have 
-resulted in a better model. Generally, the kNN method performs well, but can be 
-highly unstable. 
+validation F$_1$ score over $k$, it is clear that it is not possible to improve 
+this model any further. This is the downside to using a model that is this simple 
+to tune. Generally, the kNN method performs well for being so simple. This implies 
+that it could be a good idea to look into more advanced models of this kind. 
+Perhaps kernel smoothers or adaptive kNN.
 
 The F$_1$ test and training scores in Table \ref{tab:F1} of the MLP model are 
 both 0.87, suggesting that the chosen hyperparameters in Table 
@@ -544,7 +553,19 @@ reduction here. This could actually improve the kNN model a fair amount as it is
 highly affected by the curse of dimensionality \cite{hastie}.
 
 \section{Conclusion}
+We have compared three fundamentally different statistical learning models to 
+perform binary classification. XGB seems to be the best performing model for 
+our split of the data while also being simpler to tune than the MLP because of 
+its reduced computational cost.
 
+In the future it could be benedicial to look into more methods related to kNN, as
+it performed well despite being so simple. Performing dimensionality reduction 
+could also help kNN perform better.
+In addition more time should be spent on tuning the MLP model to see if it can
+achieve better performance than XGB. It could also be beneficial to get a 
+more statistically stable comparison between the models by using cross validation 
+for model selection, avoiding the possibility that our models over or underperform 
+on the random train and test split done on the data.
 
 \section*{Acknowledgements}
 We want to thank the University of California, Irving for providing us with the
