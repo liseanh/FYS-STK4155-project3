@@ -5,7 +5,7 @@ This project aims at comparing the classification performance of a Multilayer Pe
 
 The code in this project is relatively short and is therefore contained in a single Jupyter notebook.
 
-Please install dependencies using [Pipenv](https://github.com/pypa/pipenv) by using the command <tt>pipenv install</tt> prior to running any scripts.  
+Please install dependencies using [Pipenv](https://github.com/pypa/pipenv) by using the command <tt>pipenv install</tt>.
 
 ## Source structure 
 
