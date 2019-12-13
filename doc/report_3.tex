@@ -507,10 +507,11 @@ The F$_1$ score is lower for the test set, indicating that the predictive
 capability of the model is notably reduced on the test set compared to the 
 training set. However, looking at the graph in Figure \ref{fig:kNN} of the 
 validation F$_1$ score over $k$, it is clear that it is not possible to improve 
-this model any further. This is the downside to using a model that is this simple 
+this model any further. This is the downside of using a model that is this simple 
 to tune. Generally, the kNN method performs well for being so simple. This implies 
 that it could be a good idea to look into more advanced models of this kind. 
-Perhaps kernel smoothers or adaptive kNN.
+Adaptive kNN and Kernel Smoothing methods could for instance be tried sometime in
+the future.
 
 The F$_1$ test and training scores in Table \ref{tab:F1} of the MLP model are 
 both 0.87, suggesting that the chosen hyperparameters in Table 
@@ -541,14 +542,14 @@ confusion matrices in Figure \ref{fig:kNN}, \ref{fig:NN_confusion},
 method gave the lowest rate of false negatives, while also 
 being the method with the lowest rate of false positives. 
 
-The kNN method is outperformes by both the XGB and MLP models, while the XGB 
+The kNN method is outperforms by both the XGB and MLP models, while the XGB 
 model only slightly outperforms the MLP model. As stated previously it may be 
 possible to tune the MLP model to perform better. We still argue that the XGB
 model is the best model here though, as it is much less computationally expensive.
 
 
 It is important to keep in mind that this comparison of the model is only for a 
-single random train and test split of our data. To get a more statistically 
+single random train - test split of our data. To get a more statistically 
 significant comparison in the future, cross validation should also be used for 
 the model selection.
 
@@ -565,7 +566,7 @@ perform binary classification. XGB seems to be the best performing model for
 our split of the data while also being simpler to tune than the MLP because of 
 its reduced computational cost.
 
-In the future it could be benedicial to look into more methods related to kNN, as
+In the future it could be beneficial to look into more methods related to kNN, as
 it performed well despite being so simple. Performing dimensionality reduction 
 could also help kNN perform better.
 In addition more time should be spent on tuning the MLP model to see if it can
