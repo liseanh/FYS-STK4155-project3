@@ -36,15 +36,17 @@
   \begin{@twocolumnfalse}
     \maketitle
       \begin{abstract}
-      We implement and compare k Nearest Neighbours (kNN), a Multilayer Perceptron
-      (MLP) and eXtreme Gradient Boosting (XGB) on simulated binary classification 
-      data. MLP and XGB perform Similarly when evaluating the test F$_1$ scores, 
-      with F$_1\approx 0.87$ and F$_1\approx 0.88$ respectively. kNN performed 
-      well despite being a much simpler model, achieving F$_1 \approx 0.83$. 
-      Because of the importance of avoiding false negatives and the smaller 
-      computational cost of XGB compared to the MLP, we find XGB to be the best 
-      method overall for this split of the data. In the future one should look 
-      into model stability over several train test splits of the data.
+      We compare the performance of the $k$-nearest neighbours (kNN) method, 
+      multilayer perceptron (MLP) and extreme gradient boosting (XGB) method on 
+      simulated binary classification data. The MLP and XGB models perform 
+      similarly when evaluating the test F$_1$ scores, with values F$_1\approx 
+      0.87$ and F$_1\approx 0.88$ respectively. kNN performed well despite being 
+      a much simpler model, achieving a score of F$_1 \approx 0.83$. Due to the 
+      importance of avoiding false negatives, and consequently discarding 
+      valuable data, and the smaller computational cost of implementing XGB 
+      compared to the MLP, we find the XGB to be the best method overall for 
+      this split of the data. In the future one should look into model stability 
+      over several train test splits of the data.
       \end{abstract}
   \end{@twocolumnfalse}
 ]
@@ -53,12 +55,14 @@
 \section{Introduction}
 A wide array of machine learning methods have been developed over the years for 
 various predictive purposes, with the the neural network being the probably most 
-well-known method among the general population. In recent years many other 
-statistical learning methods have proven themselves as well however. In this 
-project we compare the performance of neural networks and gradient boosting in 
-the case of binary classification. In addition to these, we also use the much 
-simpler k-nearest neighbours method as a baseline for classification performance.
-
+well-known method among the general population. However, in recent years many 
+other statistical learning methods have started emerging as valid alternatives. 
+In this project we compare the performance of neural networks and gradient 
+boosting, which are two fairly complex methods, on a binary classification data 
+set. Additionally, we will be using the far simpler k-nearest neighbours method 
+as a baseline for the different classifiers' performances on the chosen 
+data set. The data set consists of simulated samples of gamma particles and 
+hadrons as registered by a ground-based gamma telescope. 
 
 
 \section{Data}
@@ -72,9 +76,11 @@ The set consists of ten explanatory variables and a binary response variable
 \texttt{class} which specifies whether the measured photons resulted from a gamma
 particle (\texttt{class} = g) or a hadron (\texttt{class} = h). The entire data
 set consists of 19020 instances with no missing values, with outcome distribution
-as shown in Figure \ref{fig:Histogram}. The explanatory and response variables
-are defined as the following by the UCI Machine Learning Repository
-\cite{Dua:2019}:
+as shown in Figure \ref{fig:Histogram}. As seen in the histogram, the data set 
+consists of mostly gamma particles. This is due to technical reasons, while for 
+real data, the hadrons represent most of the observations \cite{Dua:2019}. The 
+explanatory and response variables are defined as the following by the UCI 
+Machine Learning Repository \cite{Dua:2019}:
 
 \begin{enumerate}[leftmargin=5mm, itemsep=0pt,  parsep=1pt]
   \item \texttt{fLength}: continuous \# major axis of ellipse [mm]
@@ -89,6 +95,7 @@ are defined as the following by the UCI Machine Learning Repository
         projected onto major axis [mm]
   \item \texttt{fM3Long}: continuous \# 3rd root of third moment along major
         axis [mm]
+  \item \texttt{fM3Trans}: continuous \# 3rd
   \item \texttt{fM3Trans}: continuous \# 3rd root of third moment along minor
         axis [mm]
   \item \texttt{fAlpha}: continuous \# angle of major axis with vector to origin
