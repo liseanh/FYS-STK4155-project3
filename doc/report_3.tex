@@ -373,7 +373,7 @@ of important data.
 
 \begin{table}
 \caption{Estimated optimal hyperparameters found using randomised search for the 
-multilayer perceptron model.}
+Multilayer Perceptron model.}
 \label{tab:Tune_NN}
 \resizebox{\columnwidth}{!}{
   \begin{tabular}{|l|l|} \hline 
@@ -391,7 +391,7 @@ multilayer perceptron model.}
 
 \begin{table}
 \caption{Estimated optimal hyperparameters found using randomised search for the 
-extreme gradient boosted tree model.}
+Extreme Gradient Boosting model.}
 \label{tab:Tune_XGB}
 \resizebox{\columnwidth}{!}{
   \begin{tabular}{|l|l|} \hline
@@ -408,8 +408,10 @@ extreme gradient boosted tree model.}
       
 
 \begin{table}
-\caption{F$_1$ score for the training and test set for our k-nearest neighbour 
-(kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models .}
+\caption{F$_1$ score for the training and test set for our k-Nearest Neighbour 
+(kNN), multilayer perceptron (MLP) and extreme gradient boost (XGB) models. 
+Hyperparameters used can be found in Figure \ref{fig:NN_confusion}, Table 
+\ref{tab:Tune_NN} and \ref{tab:Tune_XGB} respectively.}
 \label{tab:F1}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|l|l|l|l|}
@@ -425,20 +427,22 @@ Test set     & $0.83$ & $0.87$ & $0.88$ \\ \hline
 
 \begin{figure*}
 \includegraphics[scale=1]{{figures/kNN_cv_results}.pdf}
-\caption{Results from tuned kNN using cross validation. The confusion matrix was
-found using the test set.}
+\caption{Results from tuned kNN using 5-fold cross validation. The confusion 
+matrix was calculated on the test set.}
 \label{fig:kNN}
 \end{figure*}
 
 \begin{figure}
 \includegraphics[scale=1]{{figures/nn_confusion_matrix}.pdf}
-\caption{Confusion matrix of the neural network model applied to the test set.}
+\caption{Confusion matrix of the MLP model applied to the test set. 
+The hyperparameters used can be found in Table \ref{tab:Tune_NN}}
 \label{fig:NN_confusion}
 \end{figure}
 
 \begin{figure}
 \includegraphics[scale=1]{{figures/xgboost_confusion_matrix}.pdf}
-\caption{Confusion matrix of the gradient boosted model applied to the test set.}
+\caption{Confusion matrix of the XGB model applied to the test set.
+The hyperparameters used can be found in Table \ref{tab:Tune_XGB}}
 \label{fig:XGB_confusion}
 \end{figure}
 
@@ -480,7 +484,9 @@ the highest misclassification rates.
 
 \begin{table}
 \caption{Classification rates for the $k$-nearest neighbour (kNN), multilayer 
-perceptron (MLP) and extreme gradient boosting (XGB) models.}
+perceptron (MLP) and extreme gradient boosting (XGB) models. Hyperparameters used 
+can be found in Figure \ref{fig:NN_confusion}, Table 
+\ref{tab:Tune_NN} and \ref{tab:Tune_XGB} respectively.}
 \label{tab:classification_rates}
   \begin{tabular}{|l|l|l|l|} \hline 
       & \textbf{kNN } \hspace*{2pt}& \textbf{MLP} \hspace*{2pt}& \textbf{XGB} \hspace*{2pt}\\ \hline 
