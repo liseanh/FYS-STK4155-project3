@@ -166,7 +166,7 @@ hyperparameter $k$. Using $k=1$ results in a highly complex model with high
 variance, while using $k=N$, where $N$ is the total number of samples in the
 training set, results in a simple, highly biased model. To find the optimal value
 for $k$ in our case, we use 5-fold cross-validation on the training set, keeping
-1/3rd of the total data as test set.
+1/3rd of the total data as the test set.
 
 
 \subsection{Multilayer Perceptron (MLP)}
@@ -209,7 +209,7 @@ To counteract the high variance of the model, we introduce regularisation using
 dropout. Dropout is tuned for each layer, and is the chance of any node in the 
 given layer to be ignored at an iteration in training. This reduces variance by 
 forcing the other nodes to be able to work more independently from each other, 
-lessening the chance for overfitting.
+lessening the chance of overfitting.
 
 We also tune the batch size. This leaves us with five hyperparameters to tune. A 
 grid search would be too expensive to perform, so instead we perform a random
@@ -269,7 +269,8 @@ The gradient boosting algorithm goes as follows: \cite{RiccardoGB}
 
 For this project, we have chosen to boost decision trees using an implementation 
 of gradient boosting called extreme gradient boosting (XGB) using the 
-\href{https://github.com/dmlc/xgboost}{XGBoost} library.
+\href{https://github.com/dmlc/xgboost}{XGBoost} library. Decision trees are 
+well explained in \texttt{The Elemets of Statistical Learning}%\citep{p.305}{hastie}
 
 \subsubsection{Hyperparameter tuning}
 The XGBoost package has many additional hyperparameters in comparison to the 
