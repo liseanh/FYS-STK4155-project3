@@ -10,8 +10,8 @@ Please install dependencies using [Pipenv](https://github.com/pypa/pipenv) by us
 ## Source structure 
 
 * <tt> src/main.ipynb</tt>: Main notebook containing all code used.
-* <tt> src/data<\tt>: Folder containing the data set.
-* <tt> src/models <\tt>: Folder containing the models. 
+* <tt> src/data</tt>: Folder containing the data set.
+* <tt> src/models </tt>: Folder containing the models. 
 * <tt> doc/report_3.pdf</tt>: Project report.
 * <tt> doc/report_3.tex</tt>: Report latex file.
 * <tt> doc/figures/</tt>: Folder containing all figures generated and used in the report.
